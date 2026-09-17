@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>灵敏鱼の妮妮家汇总</title>
+<style>
+:root{
+  --bg:#FBF7F4; --bg2:#F4ECE7; --card:#FFFFFF; --line:#EDE2DB;
+  --ink:#3D3230; --ink2:#7A6A65; --ink3:#A89A94;
+  --pink:#E88BA6; --pink-l:#FBE7ED; --gold:#D9A54C; --teal:#4FB3B8; --violet:#A88CD9;
+  --shadow:0 1px 2px rgba(90,60,50,.05),0 6px 20px rgba(90,60,50,.06);
+  --r:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px 80px}
+
+/* ---------- header ---------- */
+header{padding:38px 0 26px;text-align:center}
+header .kicker{font-size:12px;letter-spacing:.32em;color:var(--ink3);text-transform:uppercase;margin-bottom:10px}
+header h1{margin:0;font-size:31px;font-weight:700;letter-spacing:.02em}
+header h1 em{font-style:normal;color:var(--pink)}          /* 灵敏鱼：粉色点缀 */
+header h1 .rest{font-weight:500;color:var(--ink2)}          /* の / 汇总：弱一档 */
+                                                            /* 妮妮家：跟随 h1 本色 + 700 字重（主重点） */
+header .sub{margin-top:8px;color:var(--ink2);font-size:13px}
+.hdr-dots{display:flex;gap:6px;justify-content:center;margin-top:16px}
+.hdr-dots i{width:7px;height:7px;border-radius:50%;display:block}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:26px 0 30px;
+  background:var(--card);padding:6px;border-radius:999px;box-shadow:var(--shadow);width:fit-content;margin-left:auto;margin-right:auto}
+.tabs button{border:0;background:transparent;color:var(--ink2);font:inherit;font-size:13.5px;
+  padding:9px 20px;border-radius:999px;cursor:pointer;transition:.18s;white-space:nowrap}
+.tabs button:hover{color:var(--ink);background:var(--bg2)}
+.tabs button.on{background:var(--pink);color:#fff;box-shadow:0 3px 10px rgba(232,139,166,.35)}
+.panel{display:none;animation:fade .3s ease}
+.panel.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---------- kpi ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:14px;margin-bottom:26px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow)}
+.kpi .lb{font-size:12px;color:var(--ink3);letter-spacing:.04em}
+.kpi .vl{font-size:24px;font-weight:700;margin-top:4px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.kpi .vl small{font-size:13px;font-weight:600;color:var(--ink2);margin-left:2px}
+.kpi .ft{font-size:11.5px;color:var(--ink3);margin-top:3px}
+
+/* ---------- card / chart ---------- */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:18px}
+.card h3{margin:0 0 3px;font-size:16px;font-weight:650}
+.card .desc{color:var(--ink3);font-size:12.5px;margin-bottom:16px}
+.card.full{grid-column:1/-1}
+svg{display:block;width:100%;height:auto;overflow:visible}
+text{font-family:inherit}
+
+/* ---------- legend ---------- */
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px;font-size:12.5px;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:11px;height:11px;border-radius:3px;display:block}
+
+/* ---------- table ---------- */
+.tbl-wrap{overflow-x:auto;margin:0 -4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:right;font-weight:600;color:var(--ink3);font-size:11.5px;letter-spacing:.05em;
+  padding:0 12px 10px;border-bottom:1.5px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+th.pl,td.pl{text-align:left}
+th:hover{color:var(--pink)}
+th.sorted::after{content:" ▾";color:var(--pink)}
+th.sorted.asc::after{content:" ▴"}
+td{padding:9px 12px;border-bottom:1px solid #F6F0EC;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:hover{background:#FDF8F6}
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;background:var(--bg2);color:var(--ink2)}
+.tag.warn{background:#FDF0E7;color:#C07A3A}
+.tag.pink{background:var(--pink-l);color:#C4657F}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:-1px}
+
+/* ---------- series chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 16px;
+  font:inherit;font-size:13px;cursor:pointer;color:var(--ink2);transition:.18s;display:flex;align-items:center;gap:8px}
+.chip:hover{border-color:var(--pink);color:var(--ink)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip b{font-weight:600;font-variant-numeric:tabular-nums}
+.chip .cdot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* ---------- 明细总表：系列摘要 ---------- */
+.ser-sum{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:baseline;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:14px 22px;margin-bottom:20px;box-shadow:var(--shadow);font-size:13px;color:var(--ink2)}
+.ser-sum b{color:var(--ink);font-size:16px;font-variant-numeric:tabular-nums}
+.ser-sum .tot{font-size:20px;font-weight:700}
+.search-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.search-row input{flex:1;min-width:200px;border:1px solid var(--line);border-radius:999px;
+  padding:9px 18px;font:inherit;font-size:13px;background:var(--card);color:var(--ink);outline:none;transition:.18s}
+.search-row input:focus{border-color:var(--pink)}
+.search-row .cnt{font-size:12.5px;color:var(--ink3)}
+
+/* sp 版本分隔标题 */
+.sp-h{display:flex;align-items:baseline;gap:12px;margin:30px 0 14px;padding-left:12px;
+  border-left:4px solid var(--pink);font-size:15px;font-weight:650}
+.sp-h small{font-weight:400;color:var(--ink3);font-size:12.5px}
+
+/* ---------- 车卡片 ---------- */
+.cars{display:grid;grid-template-columns:1fr;gap:16px}
+.car{display:flex;gap:20px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:18px;box-shadow:var(--shadow);transition:.18s}
+.car:hover{box-shadow:0 4px 8px rgba(90,60,50,.06),0 14px 34px rgba(90,60,50,.10)}
+.car-imgs{flex:0 0 200px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.car-imgs .main{width:100%;border-radius:12px;overflow:hidden;background:var(--bg2);
+  border:1px solid var(--line);cursor:zoom-in;display:flex;align-items:center;justify-content:center}
+/* 同一车内多张宣图：外框完全等大，图片等比缩放不裁切 */
+.car-imgs.single .main{height:200px}
+.car-imgs.duo .main{height:152px}
+.car-imgs .main img{width:100%;height:100%;object-fit:contain;display:block;transition:.25s}
+.car-imgs .main:hover img{transform:scale(1.05)}
+.car-imgs .noimg{width:100%;height:200px;border-radius:12px;background:var(--bg2);border:1px dashed var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:12px}
+.car-imgs .strip{display:flex;gap:6px;flex-wrap:wrap}
+.car-imgs .strip img{width:44px;height:44px;border-radius:8px;object-fit:contain;cursor:zoom-in;
+  border:1px solid var(--line);background:var(--bg2)}
+.car-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.car-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.car-head h4{margin:0;font-size:15.5px;font-weight:650;letter-spacing:.01em}
+.car-head .spacer{flex:1}
+.car-head .price{font-size:17px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.car-tbl{width:100%;border-collapse:collapse;font-size:12.8px}
+.car-tbl th{font-size:11px;color:var(--ink3);font-weight:600;padding:0 10px 6px;text-align:right;
+  border-bottom:1px solid var(--line);white-space:nowrap;letter-spacing:.04em}
+.car-tbl th.c-content{text-align:left}
+.car-tbl td{padding:6.5px 10px;border-bottom:1px solid #F6F0EC;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.car-tbl tr:last-child td{border-bottom:0}
+.car-tbl td.c-content{text-align:left;white-space:normal}
+.car-tbl td b{font-weight:650}
+.car-note{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.car-note:empty{display:none}
+.empty-tip{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);
+  padding:34px;text-align:center;color:var(--ink3)}
+
+/* ---------- 蔷薇等：分组框 ---------- */
+.sec-box{border:1.5px solid var(--line);border-radius:var(--r);padding:16px 16px 2px;margin-bottom:16px;
+  background:linear-gradient(180deg,#FDF9F7,#FBF7F4)}
+.sec-box > .cars{gap:14px}
+.sec-t{display:flex;align-items:baseline;gap:12px;margin:0 0 14px;padding-left:12px;
+  border-left:4px solid var(--violet);font-size:15px;font-weight:650}
+.sec-t small{font-weight:400;color:var(--ink3);font-size:12.5px}
+
+/* 窄屏补充信息（桌面隐藏）：系列名下方的最贵/最省小字 */
+.m-ex{display:none}
+/* 图表容器：窄屏下在卡片内横向滚动，保证 SVG 文字不被等比缩到不可读 */
+.chart-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.chart-scroll::-webkit-scrollbar{height:6px}
+.chart-scroll::-webkit-scrollbar-thumb{background:#E3D6CE;border-radius:3px}
+/* ---------- 表格列宽（避免手机左右滑动） ---------- */
+.tbl-wrap table{table-layout:fixed}
+.tbl-wrap col.c-g,.tbl-wrap th.c-g{width:17%}          /* 衣橱 */
+.tbl-wrap col.c-n,.tbl-wrap th.c-n{width:24%}          /* 内容 */
+.tbl-wrap col.c-qty,.tbl-wrap th.c-qty{width:8%}       /* 数量 */
+.tbl-wrap col.c-num,.tbl-wrap th.c-num{width:17%}      /* 金额列 */
+.tbl-wrap col.c-set,.tbl-wrap th.c-set{width:15%}      /* 单套价 */
+.tbl-wrap col.c-sr,.tbl-wrap th.c-sr{width:20%}        /* 系列名 */
+.tbl-wrap col.c-cnt,.tbl-wrap th.c-cnt{width:10%}      /* 车数/枚数 */
+/* 7 列总表（系列对比）另算比例 */
+.tbl-wrap table.t7 col.c-sr,.tbl-wrap table.t7 th.c-sr{width:20%}
+.tbl-wrap table.t7 col.c-cnt,.tbl-wrap table.t7 th.c-cnt{width:10%}
+.tbl-wrap table.t7 col.c-num,.tbl-wrap table.t7 th.c-num{width:15%}
+.tbl-wrap td.c-num,.tbl-wrap th.c-num{white-space:nowrap}
+/* 车详情卡片：table-layout:fixed + colgroup 固定列宽，保证所有车、所有系列的
+   【数量】【均摊】【大货】【单件】列完全同宽、上下对齐。
+   注意：选择器必须写成 .car-tbl{...}（table 自身的类），写成 .car-tbl table{...} 无效。 */
+.car-tbl{table-layout:fixed}
+.car-tbl col.c-content{width:auto}      /* 唯一的可伸缩列，吃掉剩余空间 */
+.car-tbl col.c-qty{width:62px}
+.car-tbl col.c-num{width:78px}
+.car-tbl col.c-set{width:94px}
+.car-tbl th.c-qty{text-align:center}
+/* 属性小标：放在内容列内联成一行、右对齐强制对齐，不再占独立列 */
+.car-tbl .c-catline{display:block;text-align:right;margin-top:3px;line-height:1}
+.cat-tag{display:inline-block;padding:0 6px;border-radius:999px;font-size:10px;line-height:16px;
+  background:var(--bg2);color:var(--ink2);white-space:nowrap;vertical-align:middle;font-weight:500}
+.cat-tag.x{background:#FBE7EF;color:#C0507A}
+.car-tbl td.c-qty{text-align:center;font-variant-numeric:tabular-nums}
+.car-tbl td.c-num{font-variant-numeric:tabular-nums}
+.car-tbl td.c-set{white-space:nowrap}
+.car-tbl th,.car-tbl td{overflow:hidden;text-overflow:ellipsis}
+.car-tbl td.c-content{white-space:normal;overflow:visible}   /* 内容列允许换行 */
+/* 桌面端：内容列强制左对齐（手机端在下方 max-width:760px 里改居中） */
+@media(min-width:761px){
+  .car-tbl th.c-content,.car-tbl td.c-content{text-align:left !important}
+}
+
+.ov-cats{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 10px}
+.ov-cats .chip{padding:5px 13px;font-size:12.5px}
+
+/* ---------- gallery ---------- */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;margin-top:6px}
+.gal figure{margin:0;position:relative;overflow:hidden;border-radius:12px;background:var(--bg2);
+  aspect-ratio:1;border:1px solid var(--line);cursor:zoom-in;transition:.2s}
+.gal figure:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(90,60,50,.15);z-index:2}
+.gal img{width:100%;height:100%;object-fit:cover;display:block}
+.gal figcaption{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(50,35,30,.72));
+  color:#fff;font-size:11px;padding:14px 8px 5px;opacity:0;transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gal figure:hover figcaption{opacity:1}
+
+/* lightbox */
+#lb{position:fixed;inset:0;background:rgba(45,32,28,.88);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:90vw;max-height:88vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#lb .lb-cap{position:fixed;bottom:26px;left:0;right:0;text-align:center;color:#F3E9E4;font-size:13px;letter-spacing:.05em}
+
+/* ---------- 云端链接条 ---------- */
+.cloud{display:flex;flex-wrap:wrap;gap:5px 16px;align-items:center;justify-content:center;
+  background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:8px 22px;margin:-12px auto 26px;box-shadow:var(--shadow);width:fit-content;max-width:100%;
+  font-size:12.5px;color:var(--ink2)}
+.cloud .lb{color:var(--ink3)}
+.cloud a{color:#D0688C;text-decoration:none;font-weight:600;word-break:break-all}
+.cloud a:hover{text-decoration:underline}
+
+/* ---------- 我在妮妮家吃了多少 ---------- */
+.mine-bar{position:sticky;top:8px;z-index:6;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 22px;margin-bottom:16px;
+  box-shadow:0 4px 16px rgba(90,60,50,.10);font-size:13px;color:var(--ink2)}
+.mine-bar b{color:var(--ink);font-size:16px;font-variant-numeric:tabular-nums}
+.mine-bar .spacer{flex:1}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 15px;font:inherit;
+  font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.18s;white-space:nowrap}
+.btn:hover{border-color:var(--pink);color:var(--ink)}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600;padding:9px 26px;font-size:13.5px}
+.btn.primary:hover{filter:brightness(1.06);color:#fff}
+.btn.done{background:var(--bg2);border-color:var(--line);color:var(--ink3)}
+.mine-acts{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.mask{color:#DCCFC8;letter-spacing:.08em}
+.tbl-wrap table.tm col.c-ck,.tbl-wrap table.tm th.c-ck{width:6%}        /* 复选 */
+.tbl-wrap table.tm col.c-g,.tbl-wrap table.tm th.c-g{width:16%}         /* 衣橱 */
+.tbl-wrap table.tm col.c-n,.tbl-wrap table.tm th.c-n{width:21%}         /* 内容 */
+.tbl-wrap table.tm col.c-qty,.tbl-wrap table.tm th.c-qty{width:8%}      /* 数量 */
+.tbl-wrap table.tm col.c-num,.tbl-wrap table.tm th.c-num{width:15.33%}  /* 金额（均摊/大货/单件） */
+.tbl-wrap table.tm td.c-ck{text-align:center}
+.tbl-wrap table.tm td.c-qty{text-align:center}
+.tbl-wrap table.tm td.c-num{font-variant-numeric:tabular-nums;padding-right:14px}
+/* 数量滚轮：0–10，上下滑动 / 滚轮 / 拖拽 / 方向键都能改。
+   容器高 42（内容区 40）、每项 22、首尾留白 9 —— 上下各露出 9px 相邻数字，
+   一眼能看出可以滚。吸附公式 scrollTop = 值 × 22 与容器高度无关，所以改高度不会破坏换算。 */
+.qw{width:44px;height:42px;margin:0 auto;overflow-y:auto;overflow-x:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent);
+  mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent);
+  scroll-snap-type:y mandatory;overscroll-behavior:contain;touch-action:pan-y;
+  border:1px solid var(--line);border-radius:9px;background:var(--bg2);outline:none;
+  scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch}
+.qw::-webkit-scrollbar{display:none}
+.qw-p{height:9px}                                  /* = (内容区 40 - 项高 22) / 2，保证 0 和 10 能居中 */
+.qw-i{height:22px;line-height:22px;text-align:center;font-size:12.5px;color:var(--ink3);
+  scroll-snap-align:center;font-variant-numeric:tabular-nums}
+.qw-i.sel{color:var(--ink);font-weight:600;font-size:13.5px}
+.qw:focus{border-color:var(--pink);background:var(--card)}
+.qw.off{opacity:.32;pointer-events:none}
+/* 手机端数量用原生 select（滚轮 390 个 ≈ 5000 节点是手机卡顿主因之一） */
+.qsel{width:46px;height:30px;margin:0 auto;display:block;border:1px solid #EADFDB;border-radius:8px;
+  background:var(--card);font:inherit;font-size:13px;color:var(--ink);text-align:center;
+  padding:0 2px;appearance:none;-webkit-appearance:none}
+.qsel:focus{border-color:var(--pink);outline:none}
+.qsel:disabled{opacity:.32}
+tr.on{background:#FDF2F5}
+tr.on td{border-bottom-color:#F7E4EA}
+.mine-res{margin-top:14px}
+.mine-sum{display:flex;flex-wrap:wrap;gap:6px 24px;align-items:baseline;background:var(--bg2);
+  border-radius:12px;padding:12px 18px;font-size:13px;color:var(--ink2)}
+.mine-sum b{color:var(--ink);font-size:17px;font-variant-numeric:tabular-nums}
+.mine-sum .big{font-size:22px;font-weight:700;color:var(--ink);margin-left:auto}
+.mine-total{background:var(--card);border:1.5px solid var(--pink);border-radius:var(--r);
+  padding:18px 22px;margin-top:6px;box-shadow:var(--shadow)}
+.mine-total h3{margin:0 0 4px;font-size:16px;font-weight:650}
+.mine-total .rows{margin-top:12px;font-size:12.5px;color:var(--ink2)}
+.mine-total .rows div{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #F6F0EC}
+.mine-total .rows div:last-child{border-bottom:0}
+.mine-total .rows div span:nth-child(3){margin-left:auto;color:var(--ink3)}
+.mine-total .rows div span:last-child{margin-left:18px;min-width:84px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+.mine-total .grand{display:flex;align-items:baseline;gap:10px;margin-top:14px;padding-top:12px;border-top:1.5px solid var(--line)}
+.mine-total .grand .n{font-size:13px;color:var(--ink2)}
+.mine-total .grand .v{margin-left:auto;font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+/* 系列索引（一键跳到对应系列，随顶栏一起吸顶） */
+.mine-index{flex:1 1 100%;display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);scrollbar-width:none}
+.mine-index::-webkit-scrollbar{display:none}
+.mi-chip{display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;font:inherit;font-size:12px;color:var(--ink2);cursor:pointer;white-space:nowrap}
+.mi-chip:hover{border-color:var(--pink);color:var(--ink)}
+.mi-chip .dot{width:8px;height:8px;border-radius:50%}
+/* 详细列表：已勾选章子汇总大表 */
+.mine-detail{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-top:6px;box-shadow:var(--shadow)}
+.mine-detail h3{margin:0 0 4px;font-size:16px;font-weight:650}
+.mine-detail .desc{font-size:12px;color:var(--ink3);margin-bottom:10px}
+.tbl-wrap table.tm-detail{table-layout:fixed;width:100%}
+.tbl-wrap table.tm-detail col.c-sr,.tbl-wrap table.tm-detail th.c-sr{width:11%}
+.tbl-wrap table.tm-detail col.c-g,.tbl-wrap table.tm-detail th.c-g{width:15%}
+.tbl-wrap table.tm-detail col.c-n,.tbl-wrap table.tm-detail th.c-n{width:22%}
+.tbl-wrap table.tm-detail col.c-cat,.tbl-wrap table.tm-detail th.c-cat{width:8%}
+.tbl-wrap table.tm-detail col.c-qty,.tbl-wrap table.tm-detail th.c-qty{width:8%}
+.tbl-wrap table.tm-detail col.c-num,.tbl-wrap table.tm-detail th.c-num{width:18%}
+.tbl-wrap table.tm-detail td.c-qty{text-align:center}
+.tbl-wrap table.tm-detail td.c-num,.tbl-wrap table.tm-detail th.c-num{font-variant-numeric:tabular-nums;text-align:right;padding-right:14px}
+.tbl-wrap table.tm-detail .dt-sub td{background:var(--bg2);font-weight:600;color:var(--ink);border-top:1px solid var(--line)}
+.tbl-wrap table.tm-detail tfoot td{background:#FDF2F5;font-weight:700;color:var(--ink);border-top:1.5px solid var(--pink)}
+#mineBody .card{scroll-margin-top:96px}
+
+/* ---------- misc ---------- */
+.bar-note{font-size:12px;color:var(--ink3);margin-top:10px}
+.notes{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 22px;box-shadow:var(--shadow)}
+.notes h3{margin:0 0 8px;font-size:14px}
+.notes li{font-size:12.5px;color:var(--ink2);margin:4px 0}
+footer{margin-top:44px;text-align:center;color:var(--ink3);font-size:12px;line-height:2}
+footer .sep{margin:0 10px;opacity:.5}
+
+/* ---------- 手机适配 ---------- */
+@media(max-width:760px){
+  .wrap{padding:0 14px 60px}
+  header{padding:26px 0 18px}
+  header h1{font-size:24px}
+  .tabs{margin:18px 0 22px;padding:4px}
+  .tabs button{padding:8px 13px;font-size:12.5px}
+  .card{padding:16px 12px}     /* 左右留白收窄，表格撑得更满 */
+  .kpis{gap:10px}
+  .kpi{padding:14px 16px}
+  .kpi .vl{font-size:20px}
+  .car{flex-direction:column;gap:14px;padding:14px}
+  /* 图片：两张时并排等大，占满卡片宽度，与表格左右边界对齐 */
+  .car-imgs{flex:none;width:100%;flex-direction:row;align-items:stretch;gap:10px}
+  .car-imgs .main{flex:1;height:150px}
+  .car-imgs.single .main{flex:0 0 150px;height:150px}
+  .car-imgs .noimg{width:150px;height:150px;flex:0 0 150px}
+  .car-imgs .strip{flex-direction:column;gap:6px;flex:0 0 auto}
+  .car-imgs .strip img{width:38px;height:38px}
+  .car-head .price{font-size:16px}
+  .car-tbl{font-size:11.5px}
+  .car-tbl th{padding:0 5px 6px;font-size:10.5px}
+  .car-tbl td{padding:5.5px 5px}
+  .car-tbl td.c-content{min-width:0;white-space:normal;word-break:break-word}
+  /* 手机端：内容列居中（用户指定，桌面端保持左对齐） */
+  .car-tbl th.c-content,.car-tbl td.c-content{text-align:center}
+  /* 窄屏同样用固定列宽，保证数量列在所有车上视觉对齐。
+     加了【属性】列后 7 列的固定宽度之和会逼近手机屏宽，把内容列挤没，
+     所以窄屏下每个固定列都要比桌面更抠一点（实测 360px 屏仍留 ~100px 给内容） */
+  .car-tbl col.c-qty{width:38px}
+  .car-tbl col.c-num{width:56px}
+  .car-tbl col.c-set{width:62px}
+  /* 金额右对齐，左侧内边距纯浪费，收掉把宽度让给内容列 */
+  .car-tbl th.c-num,.car-tbl td.c-num{padding-left:2px;padding-right:5px}
+  /* 表格：取消负边距撑宽，统一各板块视觉宽度，避免左右滑动 */
+  .tbl-wrap{margin:0;padding:0}
+  .tbl-wrap table{font-size:11.5px}
+  .tbl-wrap th{padding:0 4px 8px;font-size:10.5px}
+  .tbl-wrap td{padding:7px 4px}
+  .tbl-wrap col.c-g,.tbl-wrap th.c-g{width:19%}
+  .tbl-wrap col.c-n,.tbl-wrap th.c-n{width:22%}
+  .tbl-wrap col.c-qty,.tbl-wrap th.c-qty{width:9%}
+  .tbl-wrap col.c-num,.tbl-wrap th.c-num{width:16.67%}
+  .tbl-wrap col.c-sr,.tbl-wrap th.c-sr{width:19%}
+  .tbl-wrap col.c-cnt,.tbl-wrap th.c-cnt{width:9%}
+  .tbl-wrap table.t7 col.c-sr,.tbl-wrap table.t7 th.c-sr{width:16%}
+  .tbl-wrap table.t7 col.c-cnt,.tbl-wrap table.t7 th.c-cnt{width:9%}
+  .tbl-wrap table.t7 col.c-num,.tbl-wrap table.t7 th.c-num{width:16%}
+  /* 系列对比总表：窄屏收起最贵/最省两列，避免金额被压缩换行 */
+  .tbl-wrap table.t7 col.c-sr{width:26%}
+  .tbl-wrap table.t7 col.c-cnt{width:12%}
+  .tbl-wrap table.t7 col.c-num{width:25%}
+  .c-hide-m{display:none}
+  .m-ex{display:block;font-size:10.5px;color:var(--ink3);font-weight:400;line-height:1.35;margin-top:1px}
+  .tbl-wrap .c-num{white-space:nowrap}
+  /* 图表窄屏保持最小可读宽度（在卡片内横向滚动，不改变页面宽度） */
+  .chart-scroll{margin:0;padding:0 0 4px}
+  .chart-scroll svg{min-width:560px}
+  .chart-scroll.chart-wide svg{min-width:920px}
+  .tbl-wrap th.pl,.tbl-wrap td.pl{white-space:normal;word-break:break-word}
+  .sec-box{padding:12px 12px 2px}
+  .sec-t{margin:0 0 12px;font-size:14px}
+  .ser-sum{padding:12px 16px;gap:8px 18px}
+  .gal{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+  .sp-h{margin:22px 0 12px;font-size:14px}
+  /* 手机端精简：隐藏逐枚单价柱状图、系列对比整块、总览的非 TOP10 卡片 */
+  .m-hide{display:none !important}
+  /* 总览 TOP10 手机端紧凑模式：字号、间距、padding 收紧，避免页面过长 */
+  .ov-top{padding:14px 14px}
+  .ov-top h3{margin-bottom:6px !important;font-size:14px !important}
+  .ov-top ul{margin:4px 0 0 !important}
+  .ov-top li{margin:4px 0 !important;font-size:11.5px !important}
+  .ov-top li b{font-size:12.5px}
+  /* 我在妮妮家吃了多少：窄屏与桌面同构 7 列 */
+  .mine-bar{top:4px;padding:9px 14px;border-radius:14px;font-size:12px;gap:6px 12px}
+  .mine-bar b{font-size:14px}
+  /* 结算表：与桌面同构的 7 列（复选/衣橱/内容/数量/均摊/大货/单件），字号微缩适配窄屏 */
+  .tbl-wrap table.tm{font-size:10.5px}
+  .tbl-wrap table.tm col.c-ck,.tbl-wrap table.tm th.c-ck{width:7%}
+  .tbl-wrap table.tm col.c-g,.tbl-wrap table.tm th.c-g{width:15%}
+  .tbl-wrap table.tm col.c-n,.tbl-wrap table.tm th.c-n{width:18%}
+  .tbl-wrap table.tm col.c-qty,.tbl-wrap table.tm th.c-qty{width:14%}   /* 给滚轮留够宽度 */
+  .tbl-wrap table.tm col.c-num,.tbl-wrap table.tm th.c-num{width:15.33%}
+  .tbl-wrap table.tm td.c-num{padding-right:4px}
+  .tbl-wrap table.tm td,.tbl-wrap table.tm th{padding:9px 3px}   /* 行距放宽，不再挤成一团 */
+  /* 结算表：小物标识缩小，避免手机端突兀 */
+  .tbl-wrap table.tm td.c-n .cat-tag{font-size:8.5px;padding:0 4px;line-height:13px;margin-right:3px}
+  /* 只改宽度和字号：行高 22px 是滚轮吸附的换算基准，动不得 */
+  .qw{width:40px}
+  .qw-i{font-size:12px}
+  .qw-i.sel{font-size:13px}
+  .btn{padding:6px 12px;font-size:12px}
+  .btn.primary{padding:8px 20px;font-size:13px}
+  .mine-sum{padding:10px 14px;gap:4px 16px}
+  .mine-sum .big{margin-left:0;font-size:20px;width:100%}
+  .mine-total{padding:14px 16px}
+  .mine-total .grand .v{font-size:24px}
+  .tbl-wrap table.tm-detail col.c-sr,.tbl-wrap table.tm-detail th.c-sr{width:13%}
+  .tbl-wrap table.tm-detail col.c-g,.tbl-wrap table.tm-detail th.c-g{width:13%}
+  .tbl-wrap table.tm-detail col.c-n,.tbl-wrap table.tm-detail th.c-n{width:16%}
+  .tbl-wrap table.tm-detail col.c-cat,.tbl-wrap table.tm-detail th.c-cat{width:9%}
+  .tbl-wrap table.tm-detail col.c-qty,.tbl-wrap table.tm-detail th.c-qty{width:13%}
+  .tbl-wrap table.tm-detail col.c-num,.tbl-wrap table.tm-detail th.c-num{width:18%}
+  #mineBody .card{scroll-margin-top:78px}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">BADGE COLLECTION DASHBOARD</div>
+  <h1><em>灵敏鱼</em><span class="rest">の</span>妮妮家<span class="rest">汇总</span></h1>
+  <div class="sub" id="hdrSub"></div>
+  <div class="hdr-dots" id="hdrDots"></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-p="detail" class="on">逐系列详情</button>
+  <button data-p="series">逐系列明细表</button>
+  <button data-p="compare" class="m-hide">系列对比</button>
+  <button data-p="overview">总览</button>
+  <button data-p="mine">我在妮妮家吃了多少</button>
+</nav>
+
+<div class="cloud" id="cloudBar" style="display:none"></div>
+
+<!-- ============ 1 明细总表 ============ -->
+<section id="p-detail" class="panel on">
+  <div class="chips" id="detChips"></div>
+  <div class="ser-sum" id="detSum"></div>
+  <div class="search-row">
+    <input id="detSearch" type="text" placeholder="搜索衣橱名称 / 章子内容…">
+    <span class="cnt" id="detCnt"></span>
+  </div>
+  <div id="detBody"></div>
+</section>
+
+<!-- ============ 2 逐系列详情 ============ -->
+<section id="p-series" class="panel">
+  <div class="chips" id="serChips"></div>
+  <div id="serBody"></div>
+</section>
+
+<!-- ============ 3 系列对比（手机端隐藏） ============ -->
+<section id="p-compare" class="panel m-hide">
+  <div id="cmpBody"></div>
+</section>
+
+<!-- ============ 4 总览 ============ -->
+<section id="p-overview" class="panel">
+  <div id="ovBody"></div>
+</section>
+
+<!-- ============ 5 我在妮妮家吃了多少 ============ -->
+<section id="p-mine" class="panel">
+  <div id="mineBody"></div>
+</section>
+
+<footer>
+  <span id="ftSource"></span><span class="sep">·</span>共 <span id="ftCnt"></span><span class="sep">·</span>
+  单件 = 均摊 + 大货<span class="sep">·</span>数据说明见「总览」页底部
+  <br><span id="ftBuild"></span>
+</footer>
+</div>
+
+<div id="lb"><img id="lbImg" alt=""><div class="lb-cap" id="lbCap"></div></div>
+
+<script>
+const DATA = {"title": "妮妮衣橱明细表", "stats": {"seriesCount": 10, "groupCount": 135, "badgeCount": 390, "grand": 13198.65, "avg": 33.84, "median": 36.23, "maxUnit": 59.0, "minUnit": 7.71, "shareSum": 3303.23, "bulkSum": 9895.42, "imgCount": 138}, "series": [{"name": "梦色", "sheet": "梦色衣橱", "color": "#E88BA6", "groups": [{"names": ["香草衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "香草", "qty": 1, "qtyN": 1.0, "share": "10.41", "bulk": "21", "unit": "31.41", "unitN": 31.41, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 31.41, "name": "香草衣橱", "badgeCount": 1, "thumbs": ["imgs/1.jpg"]}, {"names": ["奶糖衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "奶糖", "qty": 1, "qtyN": 1.0, "share": "10.52", "bulk": "21", "unit": "31.52", "unitN": 31.52, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 31.52, "name": "奶糖衣橱", "badgeCount": 1, "thumbs": ["imgs/2.jpg"]}, {"names": ["巧克力衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "巧克力", "qty": 1, "qtyN": 1.0, "share": "11", "bulk": "21", "unit": "32", "unitN": 32.0, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 32.0, "name": "巧克力衣橱", "badgeCount": 1, "thumbs": ["imgs/3.jpg"]}, {"names": ["咖啡衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "咖啡", "qty": 1, "qtyN": 1.0, "share": "10.88", "bulk": "21", "unit": "31.88", "unitN": 31.88, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 31.88, "name": "咖啡衣橱", "badgeCount": 1, "thumbs": ["imgs/4.jpg"]}, {"names": ["蜂蜜衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "蜂蜜", "qty": 1, "qtyN": 1.0, "share": "9.46", "bulk": "21", "unit": "30.46", "unitN": 30.46, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 30.46, "name": "蜂蜜衣橱", "badgeCount": 1, "thumbs": ["imgs/5.jpg"]}, {"names": ["草莓精灵"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "草莓", "qty": 1, "qtyN": 1.0, "share": "9.47", "bulk": "22", "unit": "31.47", "unitN": 31.47, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 31.47, "name": "草莓精灵", "badgeCount": 1, "thumbs": ["imgs/6.jpg"]}, {"names": ["校服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "裙子款", "qty": 1, "qtyN": 1.0, "share": "11.68", "bulk": "21", "unit": "32.68", "unitN": 32.68, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "西装款", "qty": 1, "qtyN": 1.0, "share": "11.68", "bulk": "21", "unit": "32.68", "unitN": 32.68, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 65.36, "name": "校服", "badgeCount": 2, "thumbs": ["imgs/7.jpg"]}, {"names": ["栗子衣橱", "薄荷衣橱"], "form": "同车单入", "sp": "", "items": [{"cat": "衣橱", "content": "栗子", "qty": 1, "qtyN": 1.0, "share": "10.01", "bulk": "21", "unit": "31.01", "unitN": 31.01, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "薄荷", "qty": 1, "qtyN": 1.0, "share": "10.01", "bulk": "21", "unit": "31.01", "unitN": 31.01, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 62.02, "name": "栗子衣橱 / 薄荷衣橱", "badgeCount": 2, "thumbs": ["imgs/8.jpg", "imgs/9.jpg"]}, {"names": ["精灵女王"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "女王", "qty": 1, "qtyN": 1.0, "share": "10.72", "bulk": "26", "unit": "36.72", "unitN": 36.72, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 36.72, "name": "精灵女王", "badgeCount": 1, "thumbs": ["imgs/10.jpg"]}, {"names": ["玉米衣橱", "砂糖衣橱"], "form": "同车单入", "sp": "", "items": [{"cat": "衣橱", "content": "玉米", "qty": 1, "qtyN": 1.0, "share": "12.48", "bulk": "21", "unit": "33.48", "unitN": 33.48, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "砂糖", "qty": 1, "qtyN": 1.0, "share": "12.48", "bulk": "21", "unit": "33.48", "unitN": 33.48, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 66.96, "name": "玉米衣橱 / 砂糖衣橱", "badgeCount": 2, "thumbs": ["imgs/11.jpg"]}, {"names": ["厨师服"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "红色", "qty": 1, "qtyN": 1.0, "share": "5.04", "bulk": "21", "unit": "26.04", "unitN": 26.04, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "黄色", "qty": 1, "qtyN": 1.0, "share": "5.04", "bulk": "21", "unit": "26.04", "unitN": 26.04, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "蓝色", "qty": 1, "qtyN": 1.0, "share": "5.04", "bulk": "21", "unit": "26.04", "unitN": 26.04, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 78.12, "name": "厨师服", "badgeCount": 3, "thumbs": ["imgs/12.jpg"]}, {"names": ["登山服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "熊熊套装", "qty": 1, "qtyN": 1.0, "share": "10.2", "bulk": "25", "unit": "35.2", "unitN": 35.2, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "登山套装", "qty": 1, "qtyN": 1.0, "share": "10.2", "bulk": "21", "unit": "31.2", "unitN": 31.2, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 66.4, "name": "登山服", "badgeCount": 2, "thumbs": ["imgs/13.jpg"]}, {"names": ["高级宫廷师"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "女生", "qty": 1, "qtyN": 1.0, "share": "9.76", "bulk": "21", "unit": "30.75", "unitN": 30.755, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "男生", "qty": 1, "qtyN": 1.0, "share": "9.76", "bulk": "21", "unit": "30.75", "unitN": 30.755, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 61.51, "name": "高级宫廷师", "badgeCount": 2, "thumbs": ["imgs/14.jpg"]}, {"names": ["麻里衣橱"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "幼年麻里", "qty": 1, "qtyN": 1.0, "share": "8.17", "bulk": "24", "unit": "32.17", "unitN": 32.17, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "工作服", "qty": 1, "qtyN": 1.0, "share": "8.17", "bulk": "23", "unit": "31.17", "unitN": 31.17, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 63.34, "name": "麻里衣橱", "badgeCount": 2, "thumbs": ["imgs/15.jpg"]}, {"names": ["草莓礼服组"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "草莓豪华礼服", "qty": 1, "qtyN": 1.0, "share": "8.82", "bulk": "25", "unit": "33.82", "unitN": 33.82, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "草莓简礼服", "qty": 1, "qtyN": 1.0, "share": "8.82", "bulk": "25", "unit": "33.82", "unitN": 33.82, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "樫野", "qty": 1, "qtyN": 1.0, "share": "8.82", "bulk": "23", "unit": "31.82", "unitN": 31.82, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "花房", "qty": 1, "qtyN": 1.0, "share": "8.82", "bulk": "24", "unit": "32.82", "unitN": 32.82, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "安堂", "qty": 1, "qtyN": 1.0, "share": "8.82", "bulk": "22", "unit": "30.82", "unitN": 30.82, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 163.1, "name": "草莓礼服组", "badgeCount": 5, "thumbs": ["imgs/16.jpg"]}, {"names": ["梦士尼"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "仙杜瑞拉·咖啡", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "26", "unit": "34.15", "unitN": 34.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "仙杜瑞拉·咖啡【异色】", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "26", "unit": "34.15", "unitN": 34.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "仙女教母·奶糖", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "23", "unit": "31.15", "unitN": 31.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "王子·蜂蜜", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "25", "unit": "33.15", "unitN": 33.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "恶毒姐姐·栗子", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "26", "unit": "34.15", "unitN": 34.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "恶毒姐姐·巧克力", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "26", "unit": "34.15", "unitN": 34.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "恶毒后妈·香草", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "25", "unit": "33.15", "unitN": 33.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "蓝色南瓜车", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "32", "unit": "40.15", "unitN": 40.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "粉色南瓜车", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "32", "unit": "40.15", "unitN": 40.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "橙色南瓜车", "qty": 1, "qtyN": 1.0, "share": "8.15", "bulk": "32", "unit": "40.15", "unitN": 40.15, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "镀金水晶鞋", "qty": 1, "qtyN": 1.0, "share": "1.51", "bulk": "10", "unit": "11.51", "unitN": 11.51, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "镀银水晶鞋", "qty": 1, "qtyN": 1.0, "share": "1.51", "bulk": "10", "unit": "11.51", "unitN": 11.51, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 377.52, "name": "梦士尼", "badgeCount": 12, "thumbs": ["imgs/17.jpg", "imgs/18.jpg"]}, {"names": ["草莓生日组"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "草莓条纹", "qty": 1, "qtyN": 1.0, "share": "8.19", "bulk": "26", "unit": "34.19", "unitN": 34.19, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "草莓皇冠", "qty": 1, "qtyN": 1.0, "share": "8.19", "bulk": "26", "unit": "34.19", "unitN": 34.19, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小礼裙", "qty": 1, "qtyN": 1.0, "share": "8.19", "bulk": "28", "unit": "36.19", "unitN": 36.19, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "爱丽丝", "qty": 1, "qtyN": 1.0, "share": "8.19", "bulk": "25", "unit": "33.19", "unitN": 33.19, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "香草厨师服", "qty": 1, "qtyN": 1.0, "share": "2.19", "bulk": "31", "unit": "33.19", "unitN": 33.19, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "香草草莓裙", "qty": 1, "qtyN": 1.0, "share": "8.19", "bulk": "29", "unit": "37.19", "unitN": 37.19, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 208.14, "name": "草莓生日组", "badgeCount": 6, "thumbs": ["imgs/19.jpg"]}, {"names": ["决赛服"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "裙子", "qty": 1, "qtyN": 1.0, "share": "7.96", "bulk": "25", "unit": "32.96", "unitN": 32.96, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "西装", "qty": 1, "qtyN": 1.0, "share": "7.96", "bulk": "24", "unit": "31.96", "unitN": 31.96, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 64.92, "name": "决赛服", "badgeCount": 2, "thumbs": ["imgs/20.jpg"]}, {"names": ["草莓和服"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "兔子和服", "qty": 1, "qtyN": 1.0, "share": "9.01", "bulk": "27", "unit": "36.01", "unitN": 36.005, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "樱桃和服", "qty": 1, "qtyN": 1.0, "share": "9.01", "bulk": "27", "unit": "36.01", "unitN": 36.005, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 72.01, "name": "草莓和服", "badgeCount": 2, "thumbs": ["imgs/21.jpg"]}, {"names": ["邪恶三人组"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "樫", "qty": 1, "qtyN": 1.0, "share": "11.63", "bulk": "26", "unit": "37.63", "unitN": 37.63, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "花房", "qty": 1, "qtyN": 1.0, "share": "11.63", "bulk": "26", "unit": "37.63", "unitN": 37.63, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "安堂", "qty": 1, "qtyN": 1.0, "share": "11.63", "bulk": "26", "unit": "37.63", "unitN": 37.63, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 112.89, "name": "邪恶三人组", "badgeCount": 3, "thumbs": ["imgs/22.jpg"]}, {"names": ["冬季精灵"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "香草", "qty": 1, "qtyN": 1.0, "share": "10.16", "bulk": "26", "unit": "36.16", "unitN": 36.165, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "巧克力", "qty": 1, "qtyN": 1.0, "share": "10.16", "bulk": "25", "unit": "35.16", "unitN": 35.165, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "奶糖", "qty": 1, "qtyN": 1.0, "share": "10.16", "bulk": "27", "unit": "37.16", "unitN": 37.165, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "咖啡", "qty": 1, "qtyN": 1.0, "share": "10.16", "bulk": "26", "unit": "36.16", "unitN": 36.165, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 144.66, "name": "冬季精灵", "badgeCount": 4, "thumbs": ["imgs/23.jpg"]}, {"names": ["冰淇淋服"], "form": "同群对入", "sp": "", "items": [{"cat": "衣橱", "content": "粉色裙子", "qty": 1, "qtyN": 1.0, "share": "9", "bulk": "24", "unit": "33", "unitN": 33.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "粉色男款", "qty": 1, "qtyN": 1.0, "share": "9", "bulk": "23", "unit": "32", "unitN": 32.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "蓝色群子", "qty": 1, "qtyN": 1.0, "share": "9", "bulk": "24", "unit": "33", "unitN": 33.0, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 98.0, "name": "冰淇淋服", "badgeCount": 3, "thumbs": ["imgs/24.jpg"]}, {"names": ["梦色燕尾服"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "白色燕尾服", "qty": 1, "qtyN": 1.0, "share": "10", "bulk": "23", "unit": "33", "unitN": 33.0, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 33.0, "name": "梦色燕尾服", "badgeCount": 1, "thumbs": ["imgs/25.jpg"]}, {"names": ["香巧奶咖二车"], "form": "同群单入", "sp": "", "items": [{"cat": "衣橱", "content": "香草", "qty": 1, "qtyN": 1.0, "share": "10.41", "bulk": "23", "unit": "33.41", "unitN": 33.41, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "巧克力", "qty": 1, "qtyN": 1.0, "share": "11", "bulk": "23", "unit": "34", "unitN": 34.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "奶糖", "qty": 1, "qtyN": 1.0, "share": "10.52", "bulk": "23", "unit": "33.52", "unitN": 33.52, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "咖啡", "qty": 1, "qtyN": 1.0, "share": "10.88", "bulk": "23", "unit": "33.88", "unitN": 33.88, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 134.81, "name": "香巧奶咖二车", "badgeCount": 4, "thumbs": ["imgs/26.jpg"]}, {"names": ["梦色叉勺"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "粉色勺子", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "蓝色勺子", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "粉色叉子（三叉）", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "蓝色叉子（三叉）", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "粉色水果叉（两叉）", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "蓝色水果叉（两叉）", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "粉色蜂蜜勺", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "粉色搅拌勺", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "奶奶勺", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "古铜勺", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "女王勺", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "草莓勺", "qty": 1, "qtyN": 1.0, "share": "9.24", "bulk": "21", "unit": "30.24", "unitN": 30.24, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 362.88, "name": "梦色叉勺", "badgeCount": 12, "thumbs": ["imgs/27.jpg", "imgs/28.jpg"]}, {"names": ["梦幻花园"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "白天烤漆", "qty": 1, "qtyN": 1.0, "share": "17", "bulk": "40", "unit": "57", "unitN": 57.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "白天ffl", "qty": 1, "qtyN": 1.0, "share": "17", "bulk": "42", "unit": "59", "unitN": 59.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "夜晚烤漆", "qty": 1, "qtyN": 1.0, "share": "17", "bulk": "40", "unit": "57", "unitN": 57.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "夜晚ffl", "qty": 1, "qtyN": 1.0, "share": "17", "bulk": "42", "unit": "59", "unitN": 59.0, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 232.0, "name": "梦幻花园", "badgeCount": 4, "thumbs": ["imgs/29.jpg"]}, {"names": ["麻里小方"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "玫瑰金烤漆", "qty": 1, "qtyN": 1.0, "share": "7.35", "bulk": "11", "unit": "18.35", "unitN": 18.35, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "喷黄烤漆", "qty": 1, "qtyN": 1.0, "share": "7.35", "bulk": "11", "unit": "18.35", "unitN": 18.35, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "玫瑰金ffl", "qty": 1, "qtyN": 1.0, "share": "7.35", "bulk": "13", "unit": "20.35", "unitN": 20.35, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 57.05, "name": "麻里小方", "badgeCount": 3, "thumbs": ["imgs/30.jpg"]}, {"names": ["草莓小方"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "玫瑰金烤漆", "qty": 1, "qtyN": 1.0, "share": "7", "bulk": "11", "unit": "18", "unitN": 18.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "喷粉烤漆", "qty": 1, "qtyN": 1.0, "share": "7", "bulk": "11", "unit": "18", "unitN": 18.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "玫瑰金ffl", "qty": 1, "qtyN": 1.0, "share": "7", "bulk": "13", "unit": "20", "unitN": 20.0, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 56.0, "name": "草莓小方", "badgeCount": 3, "thumbs": ["imgs/31.jpg"]}, {"names": ["羁绊麻里"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "玫瑰金珠光渐变", "qty": 1, "qtyN": 1.0, "share": "10.54", "bulk": "30", "unit": "40.54", "unitN": 40.54, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "镀金透漆渐变", "qty": 1, "qtyN": 1.0, "share": "10.54", "bulk": "30", "unit": "40.54", "unitN": 40.54, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 81.08, "name": "羁绊麻里", "badgeCount": 2, "thumbs": ["imgs/32.jpg"]}, {"names": ["羁绊草莓"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "玫瑰金珠光渐变", "qty": 1, "qtyN": 1.0, "share": "11.53", "bulk": "30", "unit": "41.53", "unitN": 41.53, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "镀金透漆渐变", "qty": 1, "qtyN": 1.0, "share": "11.53", "bulk": "30", "unit": "41.53", "unitN": 41.53, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 83.06, "name": "羁绊草莓", "badgeCount": 2, "thumbs": ["imgs/33.jpg"]}, {"names": ["羁绊樫野"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "玫瑰金珠光渐变", "qty": 1, "qtyN": 1.0, "share": "13.45", "bulk": "30", "unit": "43.45", "unitN": 43.45, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "镀金透漆渐变", "qty": 1, "qtyN": 1.0, "share": "13.45", "bulk": "30", "unit": "43.45", "unitN": 43.45, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 86.9, "name": "羁绊樫野", "badgeCount": 2, "thumbs": ["imgs/34.jpg"]}, {"names": ["羁绊花房"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "玫瑰金珠光渐变", "qty": 1, "qtyN": 1.0, "share": "13", "bulk": "30", "unit": "43", "unitN": 43.0, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "镀金透漆渐变", "qty": 1, "qtyN": 1.0, "share": "13", "bulk": "30", "unit": "43", "unitN": 43.0, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 86.0, "name": "羁绊花房", "badgeCount": 2, "thumbs": ["imgs/35.jpg"]}, {"names": ["草莓甜甜圈"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "浮雕·喷红", "qty": 1, "qtyN": 1.0, "share": "7.38", "bulk": "13", "unit": "20.38", "unitN": 20.38, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "浮雕·喷粉", "qty": 1, "qtyN": 1.0, "share": "7.38", "bulk": "12", "unit": "19.38", "unitN": 19.38, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "浮雕·喷黑", "qty": 1, "qtyN": 1.0, "share": "7.38", "bulk": "13", "unit": "20.38", "unitN": 20.38, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "喷粉白漆", "qty": 1, "qtyN": 1.0, "share": "1.71", "bulk": "8", "unit": "9.71", "unitN": 9.71, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "喷红白漆", "qty": 1, "qtyN": 1.0, "share": "1.71", "bulk": "8", "unit": "9.71", "unitN": 9.71, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "喷白金色透漆底", "qty": 1, "qtyN": 1.0, "share": "1.71", "bulk": "7", "unit": "8.71", "unitN": 8.71, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "镀金白漆【特典】", "qty": 1, "qtyN": 1.0, "share": "0", "bulk": "7.71", "unit": "7.71", "unitN": 7.71, "note": "", "isTrinket": false, "isBonus": true}, {"cat": "小物", "content": "玫瑰金红透【特典】", "qty": 1, "qtyN": 1.0, "share": "0", "bulk": "7.71", "unit": "7.71", "unitN": 7.71, "note": "", "isTrinket": false, "isBonus": true}], "note": "", "total": 103.69, "name": "草莓甜甜圈", "badgeCount": 8, "thumbs": ["imgs/36.jpg"]}], "spTotals": {}, "total": 3246.88, "sheetTotal": 3246.88}, {"name": "甜心", "sheet": "甜心衣橱", "color": "#4FB3B8", "groups": [{"names": ["兰衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "小兰", "qty": 1, "qtyN": 1.0, "share": "13.74", "bulk": "22", "unit": "35.74", "unitN": 35.74, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 35.74, "name": "兰衣橱", "badgeCount": 1, "thumbs": ["imgs/37.jpg"]}, {"names": ["丝衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "小丝", "qty": 1, "qtyN": 1.0, "share": "11.41", "bulk": "22", "unit": "33.41", "unitN": 33.41, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 33.41, "name": "丝衣橱", "badgeCount": 1, "thumbs": ["imgs/38.jpg"]}, {"names": ["美琪衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "美琪", "qty": 1, "qtyN": 1.0, "share": "11.69", "bulk": "22", "unit": "33.69", "unitN": 33.69, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 33.69, "name": "美琪衣橱", "badgeCount": 1, "thumbs": ["imgs/39.jpg"]}, {"names": ["双方衣橱"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "好方", "qty": 1, "qtyN": 1.0, "share": "11.1", "bulk": "23", "unit": "34.1", "unitN": 34.1, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "坏方", "qty": 1, "qtyN": 1.0, "share": "11.1", "bulk": "23", "unit": "34.1", "unitN": 34.1, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 68.2, "name": "双方衣橱", "badgeCount": 2, "thumbs": ["imgs/40.jpg"]}, {"names": ["依绘衣橱"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "依琉", "qty": 1, "qtyN": 1.0, "share": "10.54", "bulk": "24", "unit": "34.54", "unitN": 34.54, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "绘琉", "qty": 1, "qtyN": 1.0, "share": "10.54", "bulk": "23", "unit": "33.54", "unitN": 33.54, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 68.08, "name": "依绘衣橱", "badgeCount": 2, "thumbs": ["imgs/41.jpg"]}, {"names": ["皮嘻衣橱"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "皮皮", "qty": 1, "qtyN": 1.0, "share": "11.96", "bulk": "24", "unit": "35.96", "unitN": 35.96, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "嘻嘻", "qty": 1, "qtyN": 1.0, "share": "11.96", "bulk": "24", "unit": "35.96", "unitN": 35.96, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 71.92, "name": "皮嘻衣橱", "badgeCount": 2, "thumbs": ["imgs/42.jpg"]}, {"names": ["阿夜娜娜"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "阿夜", "qty": 1, "qtyN": 1.0, "share": "10.84", "bulk": "24", "unit": "34.84", "unitN": 34.84, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "娜娜", "qty": 1, "qtyN": 1.0, "share": "10.84", "bulk": "30", "unit": "40.84", "unitN": 40.84, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 75.68, "name": "阿夜娜娜", "badgeCount": 2, "thumbs": ["imgs/43.jpg"]}, {"names": ["手鞠节奏"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "手鞠", "qty": 1, "qtyN": 1.0, "share": "9.82", "bulk": "31", "unit": "40.82", "unitN": 40.82, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "节奏", "qty": 1, "qtyN": 1.0, "share": "9.82", "bulk": "28", "unit": "37.82", "unitN": 37.82, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 78.64, "name": "手鞠节奏", "badgeCount": 2, "thumbs": ["imgs/44.jpg"]}, {"names": ["圣夜校服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "男款", "qty": 1, "qtyN": 1.0, "share": "11.28", "bulk": "22", "unit": "33.28", "unitN": 33.28, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "女款", "qty": 1, "qtyN": 1.0, "share": "11.28", "bulk": "22", "unit": "33.28", "unitN": 33.28, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 66.56, "name": "圣夜校服", "badgeCount": 2, "thumbs": ["imgs/45.jpg"]}, {"names": ["亚梦制服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "经典款", "qty": 1, "qtyN": 1.0, "share": "8.55", "bulk": "23", "unit": "31.55", "unitN": 31.55, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "长裙款", "qty": 1, "qtyN": 1.0, "share": "8.55", "bulk": "23", "unit": "31.55", "unitN": 31.55, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 63.1, "name": "亚梦制服", "badgeCount": 2, "thumbs": ["imgs/46.jpg"]}, {"names": ["亚梦常服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "烘焙服", "qty": 1, "qtyN": 1.0, "share": "8.08", "bulk": "24", "unit": "32.08", "unitN": 32.08, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "Lo服", "qty": 1, "qtyN": 1.0, "share": "8.08", "bulk": "26", "unit": "34.08", "unitN": 34.08, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 66.16, "name": "亚梦常服", "badgeCount": 2, "thumbs": ["imgs/47.jpg"]}, {"names": ["几呗制服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "几斗制服", "qty": 1, "qtyN": 1.0, "share": "8.34", "bulk": "21", "unit": "29.34", "unitN": 29.34, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "歌呗制服", "qty": 1, "qtyN": 1.0, "share": "8.34", "bulk": "23", "unit": "31.34", "unitN": 31.34, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 60.68, "name": "几呗制服", "badgeCount": 2, "thumbs": ["imgs/48.jpg"]}, {"names": ["星那歌呗"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "黄色款", "qty": 1, "qtyN": 1.0, "share": "8.1", "bulk": "23", "unit": "31.1", "unitN": 31.1, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "粉色款", "qty": 1, "qtyN": 1.0, "share": "8.1", "bulk": "26", "unit": "34.1", "unitN": 34.1, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 65.2, "name": "星那歌呗", "badgeCount": 2, "thumbs": ["imgs/49.jpg"]}, {"names": ["奇迹武藏大地"], "form": "同车单入", "sp": "", "items": [{"cat": "衣橱", "content": "奇迹", "qty": 1, "qtyN": 1.0, "share": "11.27", "bulk": "32", "unit": "43.27", "unitN": 43.27, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "武藏", "qty": 1, "qtyN": 1.0, "share": "11.27", "bulk": "27", "unit": "38.27", "unitN": 38.27, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "大地", "qty": 1, "qtyN": 1.0, "share": "11.27", "bulk": "30", "unit": "41.27", "unitN": 41.27, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 122.81, "name": "奇迹武藏大地", "badgeCount": 3, "thumbs": ["imgs/50.jpg"]}, {"names": ["圣夜校服2.0"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "女款", "qty": 1, "qtyN": 1.0, "share": "9.27", "bulk": "23", "unit": "32.27", "unitN": 32.27, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "男款", "qty": 1, "qtyN": 1.0, "share": "16.27", "bulk": "22", "unit": "38.27", "unitN": 38.27, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 70.54, "name": "圣夜校服2.0", "badgeCount": 2, "thumbs": ["imgs/51.jpg"]}, {"names": ["或奏校服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "女款", "qty": 1, "qtyN": 1.0, "share": "7.57", "bulk": "26", "unit": "33.57", "unitN": 33.57, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "男款", "qty": 1, "qtyN": 1.0, "share": "7.57", "bulk": "23", "unit": "30.57", "unitN": 30.57, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 64.14, "name": "或奏校服", "badgeCount": 2, "thumbs": ["imgs/52.jpg"]}, {"names": ["弥耶璃茉常服"], "form": "同车单入", "sp": "", "items": [{"cat": "衣橱", "content": "弥耶", "qty": 1, "qtyN": 1.0, "share": "7.54", "bulk": "27", "unit": "34.54", "unitN": 34.54, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "璃茉", "qty": 1, "qtyN": 1.0, "share": "7.54", "bulk": "26", "unit": "33.54", "unitN": 33.54, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 68.08, "name": "弥耶璃茉常服", "badgeCount": 2, "thumbs": ["imgs/53.jpg"]}, {"names": ["丝兰琪变身"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "小兰", "qty": 1, "qtyN": 1.0, "share": "5.17", "bulk": "36", "unit": "41.17", "unitN": 41.17, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小丝", "qty": 1, "qtyN": 1.0, "share": "5.17", "bulk": "29", "unit": "34.17", "unitN": 34.17, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "美琪", "qty": 1, "qtyN": 1.0, "share": "5.17", "bulk": "32", "unit": "37.17", "unitN": 37.17, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 112.51, "name": "丝兰琪变身", "badgeCount": 3, "thumbs": ["imgs/54.jpg"]}, {"names": ["双方变身"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "好方", "qty": 1, "qtyN": 1.0, "share": "5.26", "bulk": "30", "unit": "35.26", "unitN": 35.26, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "坏方", "qty": 1, "qtyN": 1.0, "share": "5.26", "bulk": "30", "unit": "35.26", "unitN": 35.26, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 70.52, "name": "双方变身", "badgeCount": 2, "thumbs": ["imgs/55.jpg"]}, {"names": ["天使恶魔呗"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "天使呗", "qty": 1, "qtyN": 1.0, "share": "5.13", "bulk": "27", "unit": "32.13", "unitN": 32.13, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "恶魔呗", "qty": 1, "qtyN": 1.0, "share": "5.13", "bulk": "26", "unit": "31.13", "unitN": 31.13, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 63.26, "name": "天使恶魔呗", "badgeCount": 2, "thumbs": ["imgs/56.jpg"]}, {"names": ["几梦婚纱"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "亚梦婚纱", "qty": 1, "qtyN": 1.0, "share": "5.41", "bulk": "38", "unit": "43.41", "unitN": 43.41, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "几斗海盗", "qty": 1, "qtyN": 1.0, "share": "5.41", "bulk": "26", "unit": "31.41", "unitN": 31.41, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 74.82, "name": "几梦婚纱", "badgeCount": 2, "thumbs": ["imgs/57.jpg"]}, {"names": ["璃耶变身"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "璃茉", "qty": 1, "qtyN": 1.0, "share": "6.27", "bulk": "29", "unit": "35.27", "unitN": 35.27, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "弥耶", "qty": 1, "qtyN": 1.0, "share": "6.27", "bulk": "32", "unit": "38.27", "unitN": 38.27, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 73.54, "name": "璃耶变身", "badgeCount": 2, "thumbs": ["imgs/58.jpg"]}, {"names": ["浪漫华尔兹"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "亚梦", "qty": 1, "qtyN": 1.0, "share": "7.57", "bulk": "32", "unit": "39.57", "unitN": 39.57, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "唯世", "qty": 1, "qtyN": 1.0, "share": "7.57", "bulk": "32", "unit": "39.57", "unitN": 39.57, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 79.14, "name": "浪漫华尔兹", "badgeCount": 2, "thumbs": ["imgs/59.jpg"]}, {"names": ["露露常服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "橙色款", "qty": 1, "qtyN": 1.0, "share": "10.37", "bulk": "29", "unit": "39.37", "unitN": 39.37, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "蓝色款", "qty": 1, "qtyN": 1.0, "share": "10.37", "bulk": "26", "unit": "36.37", "unitN": 36.37, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 75.74, "name": "露露常服", "badgeCount": 2, "thumbs": ["imgs/60.jpg"]}, {"names": ["冷门甜心"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "亚梦魔女", "qty": 1, "qtyN": 1.0, "share": "9.9", "bulk": "34", "unit": "43.9", "unitN": 43.9, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小闪", "qty": 1, "qtyN": 1.0, "share": "9.9", "bulk": "27", "unit": "36.9", "unitN": 36.9, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小荧", "qty": 1, "qtyN": 1.0, "share": "9.9", "bulk": "26", "unit": "35.9", "unitN": 35.9, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "二阶堂", "qty": 1, "qtyN": 1.0, "share": "9.9", "bulk": "32", "unit": "41.9", "unitN": 41.9, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 158.6, "name": "冷门甜心", "badgeCount": 4, "thumbs": ["imgs/61.jpg"]}, {"names": ["几斗变身"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "猫猫服", "qty": 1, "qtyN": 1.0, "share": "7.71", "bulk": "31", "unit": "38.71", "unitN": 38.71, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "镰刀服", "qty": 1, "qtyN": 1.0, "share": "7.71", "bulk": "32", "unit": "39.71", "unitN": 39.71, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 78.42, "name": "几斗变身", "badgeCount": 2, "thumbs": ["imgs/62.jpg"]}, {"names": ["亚实常服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "蓝色款", "qty": 1, "qtyN": 1.0, "share": "2.31", "bulk": "27", "unit": "29.31", "unitN": 29.31, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "粉色款", "qty": 1, "qtyN": 1.0, "share": "2.31", "bulk": "27", "unit": "29.31", "unitN": 29.31, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 58.62, "name": "亚实常服", "badgeCount": 2, "thumbs": ["imgs/63.jpg"]}, {"names": ["甜心女仆"], "form": "同车套入", "sp": "", "items": [{"cat": "小物", "content": "亚梦勺子", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "25", "unit": "36.23", "unitN": 36.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "歌呗勺子", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "21", "unit": "32.23", "unitN": 32.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "几斗勺子", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "21", "unit": "32.23", "unitN": 32.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "唯世勺子", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "21", "unit": "32.23", "unitN": 32.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "凪彦勺子", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "21", "unit": "32.23", "unitN": 32.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "亚梦女仆", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "39", "unit": "50.23", "unitN": 50.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "歌呗女仆", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "28", "unit": "39.23", "unitN": 39.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "几斗男仆", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "25", "unit": "36.23", "unitN": 36.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "唯世男仆", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "27", "unit": "38.23", "unitN": 38.23, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "凪彦男仆", "qty": 1, "qtyN": 1.0, "share": "11.23", "bulk": "25", "unit": "36.23", "unitN": 36.23, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 365.3, "name": "甜心女仆", "badgeCount": 10, "thumbs": ["imgs/64.jpg"]}, {"names": ["露露变身"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "粉色常服", "qty": 1, "qtyN": 1.0, "share": "11.58", "bulk": "27", "unit": "38.58", "unitN": 38.58, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "变身服", "qty": 1, "qtyN": 1.0, "share": "11.58", "bulk": "27", "unit": "38.58", "unitN": 38.58, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 77.16, "name": "露露变身", "badgeCount": 2, "thumbs": ["imgs/65.jpg"]}, {"names": ["凪抚变身"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "凪彦变身", "qty": 1, "qtyN": 1.0, "share": "6.73", "bulk": "34", "unit": "40.73", "unitN": 40.73, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "抚子变身", "qty": 1, "qtyN": 1.0, "share": "6.73", "bulk": "36", "unit": "42.73", "unitN": 42.73, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 83.46, "name": "凪抚变身", "badgeCount": 2, "thumbs": ["imgs/66.jpg"]}, {"names": ["异域梦呗"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "白色亚梦", "qty": 1, "qtyN": 1.0, "share": "7.87", "bulk": "30", "unit": "37.87", "unitN": 37.87, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "紫色歌呗", "qty": 1, "qtyN": 1.0, "share": "7.87", "bulk": "30", "unit": "37.87", "unitN": 37.87, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 75.74, "name": "异域梦呗", "badgeCount": 2, "thumbs": ["imgs/67.jpg"]}, {"names": ["海空唯变身"], "form": "同车单入", "sp": "", "items": [{"cat": "衣橱", "content": "海里", "qty": 1, "qtyN": 1.0, "share": "7.48", "bulk": "30", "unit": "37.48", "unitN": 37.48, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "唯世", "qty": 1, "qtyN": 1.0, "share": "7.48", "bulk": "27", "unit": "34.48", "unitN": 34.48, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "空海", "qty": 1, "qtyN": 1.0, "share": "7.48", "bulk": "30", "unit": "37.48", "unitN": 37.48, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 109.44, "name": "海空唯变身", "badgeCount": 3, "thumbs": ["imgs/68.jpg"]}, {"names": ["亚梦五变身"], "form": "同车对入", "sp": "", "items": [{"cat": "衣橱", "content": "依琉天使变身", "qty": 1, "qtyN": 1.0, "share": "6.38", "bulk": "28", "unit": "34.38", "unitN": 34.38, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "绘琉恶魔变身", "qty": 1, "qtyN": 1.0, "share": "6.38", "bulk": "28", "unit": "34.38", "unitN": 34.38, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "手鞠变身", "qty": 1, "qtyN": 1.0, "share": "6.38", "bulk": "32", "unit": "38.38", "unitN": 38.38, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "魔女变身", "qty": 1, "qtyN": 1.0, "share": "6.38", "bulk": "30", "unit": "36.38", "unitN": 36.38, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "阿夜变身", "qty": 1, "qtyN": 1.0, "share": "6.38", "bulk": "30", "unit": "36.38", "unitN": 36.38, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 179.9, "name": "亚梦五变身", "badgeCount": 5, "thumbs": ["imgs/69.jpg"]}, {"names": ["迷宫蝴蝶"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "蓝色长裙", "qty": 1, "qtyN": 1.0, "share": "5.76", "bulk": "31", "unit": "36.76", "unitN": 36.76, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "蓝色短裙", "qty": 1, "qtyN": 1.0, "share": "5.76", "bulk": "33", "unit": "38.76", "unitN": 38.76, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 75.52, "name": "迷宫蝴蝶", "badgeCount": 2, "thumbs": ["imgs/70.jpg"]}, {"names": ["Humpty&Dumpty\n【锁&钥匙】"], "form": "同群单入", "sp": "", "items": [{"cat": "小物", "content": "彩色/对", "qty": 1, "qtyN": 1.0, "share": "3.57", "bulk": "32", "unit": "35.57", "unitN": 35.57, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "白色/对", "qty": 1, "qtyN": 1.0, "share": "3.57", "bulk": "24", "unit": "27.57", "unitN": 27.57, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "粉色/对", "qty": 1, "qtyN": 1.0, "share": "3.57", "bulk": "24", "unit": "27.57", "unitN": 27.57, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "蓝色/对", "qty": 1, "qtyN": 1.0, "share": "3.57", "bulk": "24", "unit": "27.57", "unitN": 27.57, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "黄色/对", "qty": 1, "qtyN": 1.0, "share": "3.57", "bulk": "24", "unit": "27.57", "unitN": 27.57, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "小物", "content": "绿色/对", "qty": 1, "qtyN": 1.0, "share": "3.57", "bulk": "24", "unit": "27.57", "unitN": 27.57, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 173.42, "name": "Humpty&Dumpty\n【锁&钥匙】", "badgeCount": 6, "thumbs": ["imgs/71.jpg"]}], "spTotals": {}, "total": 3097.74, "sheetTotal": 3097.74}, {"name": "人鱼", "sheet": "人鱼衣橱", "color": "#7FA8E0", "groups": [{"names": ["露亚可可1.0"], "form": "对入", "sp": "人鱼1.0", "items": [{"cat": "衣橱", "content": "露亚变身服", "qty": 1, "qtyN": 1.0, "share": "13.56", "bulk": "25", "unit": "38.56", "unitN": 38.56, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "可可变身服", "qty": 1, "qtyN": 1.0, "share": "13.56", "bulk": "25", "unit": "38.56", "unitN": 38.56, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 77.12, "name": "露亚可可1.0", "badgeCount": 2, "thumbs": ["imgs/72.jpg"]}, {"names": ["波音丽娜1.0"], "form": "对入", "sp": "人鱼1.0", "items": [{"cat": "衣橱", "content": "波音变身服", "qty": 1, "qtyN": 1.0, "share": "13.89", "bulk": "25", "unit": "38.89", "unitN": 38.89, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "丽娜变身服", "qty": 1, "qtyN": 1.0, "share": "13.89", "bulk": "25", "unit": "38.89", "unitN": 38.89, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 77.78, "name": "波音丽娜1.0", "badgeCount": 2, "thumbs": ["imgs/73.jpg"]}, {"names": ["香莲诺威尔1.0"], "form": "对入", "sp": "人鱼1.0", "items": [{"cat": "衣橱", "content": "香莲变身服", "qty": 1, "qtyN": 1.0, "share": "14.06", "bulk": "25", "unit": "39.06", "unitN": 39.065, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "诺威尔变身服", "qty": 1, "qtyN": 1.0, "share": "14.06", "bulk": "25", "unit": "39.06", "unitN": 39.065, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 78.13, "name": "香莲诺威尔1.0", "badgeCount": 2, "thumbs": ["imgs/74.jpg"]}, {"names": ["黑星沙1.0"], "form": "对入+特典", "sp": "人鱼1.0", "items": [{"cat": "衣橱", "content": "沙罗变身服", "qty": 1, "qtyN": 1.0, "share": "14.62", "bulk": "25", "unit": "39.62", "unitN": 39.62, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "星罗变身服", "qty": 1, "qtyN": 1.0, "share": "14.62", "bulk": "25", "unit": "39.62", "unitN": 39.62, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "黑沙变身服", "qty": 1, "qtyN": 1.0, "share": "14.62", "bulk": "25", "unit": "39.62", "unitN": 39.62, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 118.86, "name": "黑星沙1.0", "badgeCount": 3, "thumbs": ["imgs/75.jpg"]}, {"names": ["露亚可可2.0"], "form": "对入", "sp": "人鱼2.0", "items": [{"cat": "衣橱", "content": "露亚鱼尾", "qty": 1, "qtyN": 1.0, "share": "8.2", "bulk": "35", "unit": "43.2", "unitN": 43.2, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "可可鱼尾", "qty": 1, "qtyN": 1.0, "share": "8.2", "bulk": "33", "unit": "41.2", "unitN": 41.2, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 84.4, "name": "露亚可可2.0", "badgeCount": 2, "thumbs": ["imgs/76.jpg"]}, {"names": ["波音丽娜2.0"], "form": "对入", "sp": "人鱼2.0", "items": [{"cat": "衣橱", "content": "波音鱼尾", "qty": 1, "qtyN": 1.0, "share": "8.8", "bulk": "36", "unit": "44.8", "unitN": 44.8, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "丽娜鱼尾", "qty": 1, "qtyN": 1.0, "share": "8.8", "bulk": "34", "unit": "42.8", "unitN": 42.8, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 87.6, "name": "波音丽娜2.0", "badgeCount": 2, "thumbs": ["imgs/77.jpg"]}, {"names": ["香莲诺威尔2.0"], "form": "对入", "sp": "人鱼2.0", "items": [{"cat": "衣橱", "content": "香莲鱼尾", "qty": 1, "qtyN": 1.0, "share": "9.81", "bulk": "31", "unit": "40.81", "unitN": 40.81, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "诺威尔鱼尾", "qty": 1, "qtyN": 1.0, "share": "9.81", "bulk": "31", "unit": "40.81", "unitN": 40.81, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 81.62, "name": "香莲诺威尔2.0", "badgeCount": 2, "thumbs": ["imgs/78.jpg"]}, {"names": ["黑白星沙罗"], "form": "对入+特典", "sp": "人鱼2.0", "items": [{"cat": "衣橱", "content": "星罗鱼尾", "qty": 1, "qtyN": 1.0, "share": "6.18", "bulk": "31", "unit": "37.18", "unitN": 37.18, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "沙罗鱼尾", "qty": 1, "qtyN": 1.0, "share": "6.18", "bulk": "31", "unit": "37.18", "unitN": 37.18, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "黑沙罗鱼尾", "qty": 1, "qtyN": 1.0, "share": "6.18", "bulk": "25", "unit": "31.18", "unitN": 31.18, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "白沙罗鱼尾", "qty": 1, "qtyN": 1.0, "share": "6.18", "bulk": "25", "unit": "31.18", "unitN": 31.18, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 136.72, "name": "黑白星沙罗", "badgeCount": 4, "thumbs": ["imgs/79.jpg"]}, {"names": ["露可波莉3.0"], "form": "套入", "sp": "人鱼3.0", "items": [{"cat": "衣橱", "content": "露亚变身服", "qty": 1, "qtyN": 1.0, "share": "8.4", "bulk": "25", "unit": "33.4", "unitN": 33.4, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "可可变身服", "qty": 1, "qtyN": 1.0, "share": "8.4", "bulk": "25", "unit": "33.4", "unitN": 33.4, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "波音变身服", "qty": 1, "qtyN": 1.0, "share": "8.4", "bulk": "25", "unit": "33.4", "unitN": 33.4, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "丽娜变身服", "qty": 1, "qtyN": 1.0, "share": "8.4", "bulk": "25", "unit": "33.4", "unitN": 33.4, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 133.6, "name": "露可波莉3.0", "badgeCount": 4, "thumbs": ["imgs/80.jpg"]}, {"names": ["香诺星沙3.0"], "form": "套入", "sp": "人鱼3.0", "items": [{"cat": "衣橱", "content": "香莲变身服", "qty": 1, "qtyN": 1.0, "share": "8.39", "bulk": "26", "unit": "34.39", "unitN": 34.39, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "诺威尔变身服", "qty": 1, "qtyN": 1.0, "share": "8.39", "bulk": "26", "unit": "34.39", "unitN": 34.39, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "星罗变身服", "qty": 1, "qtyN": 1.0, "share": "8.39", "bulk": "26", "unit": "34.39", "unitN": 34.39, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "沙罗变身服", "qty": 1, "qtyN": 1.0, "share": "8.39", "bulk": "26", "unit": "34.39", "unitN": 34.39, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "黑沙变身服", "qty": 1, "qtyN": 1.0, "share": "8.39", "bulk": "26", "unit": "34.39", "unitN": 34.39, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 171.95, "name": "香诺星沙3.0", "badgeCount": 5, "thumbs": ["imgs/81.jpg"]}, {"names": ["九大人鱼公主"], "form": "同车单入", "sp": "人鱼4.0", "items": [{"cat": "衣橱", "content": "露亚鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "可可鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "波音鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "丽娜鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "香莲鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "诺威尔鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "沙罗鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "星罗鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "黑沙鱼尾", "qty": 1, "qtyN": 1.0, "share": "3.43", "bulk": "30", "unit": "33.43", "unitN": 33.43, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 300.87, "name": "九大人鱼公主", "badgeCount": 9, "thumbs": ["imgs/82.jpg"]}, {"names": ["露亚常服"], "form": "对入", "sp": "常服系列", "items": [{"cat": "衣橱", "content": "露亚校服", "qty": 1, "qtyN": 1.0, "share": "11.07", "bulk": "27", "unit": "38.08", "unitN": 38.075, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "露亚常服", "qty": 1, "qtyN": 1.0, "share": "11.07", "bulk": "27", "unit": "38.08", "unitN": 38.075, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 76.15, "name": "露亚常服", "badgeCount": 2, "thumbs": ["imgs/83.jpg"]}, {"names": ["波音常服"], "form": "对入", "sp": "常服系列", "items": [{"cat": "衣橱", "content": "波音校服", "qty": 1, "qtyN": 1.0, "share": "9.95", "bulk": "26", "unit": "35.95", "unitN": 35.95, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "波音常服", "qty": 1, "qtyN": 1.0, "share": "9.95", "bulk": "25", "unit": "34.95", "unitN": 34.95, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 70.9, "name": "波音常服", "badgeCount": 2, "thumbs": ["imgs/84.jpg"]}, {"names": ["丽娜常服"], "form": "对入", "sp": "常服系列", "items": [{"cat": "衣橱", "content": "男装校服", "qty": 1, "qtyN": 1.0, "share": "10.66", "bulk": "23", "unit": "33.66", "unitN": 33.66, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "丽娜常服", "qty": 1, "qtyN": 1.0, "share": "10.66", "bulk": "24", "unit": "34.66", "unitN": 34.66, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 68.32, "name": "丽娜常服", "badgeCount": 2, "thumbs": ["imgs/85.jpg"]}, {"names": ["露海情缘"], "form": "对入", "sp": "情人节系列", "items": [{"cat": "衣橱", "content": "露亚成人礼", "qty": 1, "qtyN": 1.0, "share": "8.93", "bulk": "32", "unit": "40.93", "unitN": 40.93, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "海斗骑士服", "qty": 1, "qtyN": 1.0, "share": "8.93", "bulk": "26", "unit": "34.93", "unitN": 34.93, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 75.86, "name": "露海情缘", "badgeCount": 2, "thumbs": ["imgs/86.jpg"]}, {"names": ["露波莉"], "form": "套入", "sp": "三人组系列", "items": [{"cat": "衣橱", "content": "露亚渐变鱼尾", "qty": 1, "qtyN": 1.0, "share": "10.28", "bulk": "33", "unit": "43.28", "unitN": 43.28, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "波音渐变鱼尾", "qty": 1, "qtyN": 1.0, "share": "10.28", "bulk": "33", "unit": "43.28", "unitN": 43.28, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "丽娜渐变鱼尾", "qty": 1, "qtyN": 1.0, "share": "10.28", "bulk": "33", "unit": "43.28", "unitN": 43.28, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 129.84, "name": "露波莉", "badgeCount": 3, "thumbs": ["imgs/87.jpg"]}, {"names": ["露波莉Lolita"], "form": "套入", "sp": "三人组系列", "items": [{"cat": "衣橱", "content": "露亚小洋服", "qty": 1, "qtyN": 1.0, "share": "10.92", "bulk": "32", "unit": "42.92", "unitN": 42.92, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "波音小洋服", "qty": 1, "qtyN": 1.0, "share": "10.92", "bulk": "32", "unit": "42.92", "unitN": 42.92, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "丽娜小洋服", "qty": 1, "qtyN": 1.0, "share": "10.92", "bulk": "32", "unit": "42.92", "unitN": 42.92, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 128.76, "name": "露波莉Lolita", "badgeCount": 3, "thumbs": ["imgs/88.jpg"]}, {"names": ["浮雕小物"], "form": "同系列套入", "sp": "小物系列", "items": [{"cat": "小物", "content": "贝壳背面", "qty": "9个/套", "qtyN": 9.0, "share": "1.98", "bulk": "12", "unit": "13.98", "unitN": 13.98, "note": "", "isTrinket": true, "isBonus": false, "setPrice": 125.82, "setKey": "贝壳背面"}, {"cat": "小物", "content": "贝壳正面（珍珠）", "qty": "9个/套", "qtyN": 9.0, "share": "1.98", "bulk": "13", "unit": "14.98", "unitN": 14.98, "note": "", "isTrinket": true, "isBonus": false, "setPrice": 134.82, "setKey": "贝壳正面（珍珠）"}, {"cat": "小物", "content": "1.0麦克风", "qty": "9个/套", "qtyN": 9.0, "share": "1.98", "bulk": "13", "unit": "14.98", "unitN": 14.98, "note": "", "isTrinket": true, "isBonus": false, "setPrice": 134.82, "setKey": "1.0麦克风"}, {"cat": "小物", "content": "2.0麦克风", "qty": "9个/套", "qtyN": 9.0, "share": "1.98", "bulk": "13", "unit": "14.98", "unitN": 14.98, "note": "", "isTrinket": true, "isBonus": false, "setPrice": 134.82, "setKey": "2.0麦克风"}], "note": "", "total": 530.28, "name": "浮雕小物", "badgeCount": 36, "thumbs": ["imgs/89.jpg"], "setPriceLabel": "单套总价"}], "spTotals": {"人鱼1.0": 351.89, "人鱼2.0": 390.33, "人鱼3.0": 305.55, "人鱼4.0": 300.87, "常服系列": 225.95, "小物系列": 530.28}, "total": 2428.76, "sheetTotal": 1909.06}, {"name": "小樱", "sheet": "小樱衣橱", "color": "#D9A54C", "groups": [{"names": ["鸟之诗"], "form": "同群单入", "sp": "", "items": [{"cat": "衣橱", "content": "鸟之诗本体（红色）", "qty": 1, "qtyN": 1.0, "share": "6.22", "bulk": "25", "unit": "31.22", "unitN": 31.22, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "鸟之诗特典（粉色）", "qty": 1, "qtyN": 1.0, "share": "6.22", "bulk": "25", "unit": "31.22", "unitN": 31.22, "note": "", "isTrinket": false, "isBonus": true}], "note": "", "total": 62.44, "name": "鸟之诗", "badgeCount": 2, "thumbs": ["imgs/90.jpg"]}, {"names": ["猫咪"], "form": "同群单入", "sp": "", "items": [{"cat": "衣橱", "content": "猫咪本体（粉色）", "qty": 1, "qtyN": 1.0, "share": "7.93", "bulk": "27", "unit": "34.93", "unitN": 34.93, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "猫咪特典（白色）", "qty": 1, "qtyN": 1.0, "share": "7.93", "bulk": "27", "unit": "34.93", "unitN": 34.93, "note": "", "isTrinket": false, "isBonus": true}], "note": "", "total": 69.86, "name": "猫咪", "badgeCount": 2, "thumbs": ["imgs/91.jpg"]}, {"names": ["心御心缘"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "心御", "qty": 1, "qtyN": 1.0, "share": "13.77", "bulk": "29", "unit": "42.77", "unitN": 42.765, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "心缘", "qty": 1, "qtyN": 1.0, "share": "13.77", "bulk": "29", "unit": "42.77", "unitN": 42.765, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 85.53, "name": "心御心缘", "badgeCount": 2, "thumbs": ["imgs/92.jpg"]}, {"names": ["祁星祁音"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "祁星（黄色）", "qty": 1, "qtyN": 1.0, "share": "11.04", "bulk": "26", "unit": "37.04", "unitN": 37.04, "note": "有换厂", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "祁音（绿色）", "qty": 1, "qtyN": 1.0, "share": "11.04", "bulk": "32", "unit": "43.04", "unitN": 43.04, "note": "", "isTrinket": false, "isBonus": false}], "note": "有换厂", "total": 80.08, "name": "祁星祁音", "badgeCount": 2, "thumbs": ["imgs/93.jpg"]}, {"names": ["白色圣诞"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "小樱", "qty": 1, "qtyN": 1.0, "share": "12.93", "bulk": "34", "unit": "46.92", "unitN": 46.925, "note": "有换厂", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小狼", "qty": 1, "qtyN": 1.0, "share": "12.93", "bulk": "34", "unit": "46.92", "unitN": 46.925, "note": "", "isTrinket": false, "isBonus": false}], "note": "有换厂", "total": 93.85, "name": "白色圣诞", "badgeCount": 2, "thumbs": ["imgs/94.jpg"]}, {"names": ["公主＆骑士"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "小樱骑士服", "qty": 1, "qtyN": 1.0, "share": "7.46", "bulk": "31", "unit": "38.47", "unitN": 38.465, "note": "有换厂", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小狼公主服", "qty": 1, "qtyN": 1.0, "share": "7.46", "bulk": "29", "unit": "36.47", "unitN": 36.465, "note": "", "isTrinket": false, "isBonus": false}], "note": "有换厂", "total": 74.93, "name": "公主＆骑士", "badgeCount": 2, "thumbs": ["imgs/95.jpg"]}, {"names": ["知樱和服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "小樱和服", "qty": 1, "qtyN": 1.0, "share": "11.98", "bulk": "28", "unit": "39.98", "unitN": 39.985, "note": "有换厂", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "知世和服", "qty": 1, "qtyN": 1.0, "share": "11.98", "bulk": "31", "unit": "42.98", "unitN": 42.985, "note": "", "isTrinket": false, "isBonus": false}], "note": "有换厂", "total": 82.97, "name": "知樱和服", "badgeCount": 2, "thumbs": ["imgs/96.jpg"]}, {"names": ["小樱常服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "小樱校服", "qty": 1, "qtyN": 1.0, "share": "6.5", "bulk": "31", "unit": "37.49", "unitN": 37.495, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小樱常服", "qty": 1, "qtyN": 1.0, "share": "6.5", "bulk": "31", "unit": "37.49", "unitN": 37.495, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 74.99, "name": "小樱常服", "badgeCount": 2, "thumbs": ["imgs/97.jpg"]}, {"names": ["海霜雾月"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "海雾(尖帽子)", "qty": 1, "qtyN": 1.0, "share": "8.19", "bulk": "31", "unit": "39.19", "unitN": 39.19, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "霜月(女仆装)", "qty": 1, "qtyN": 1.0, "share": "8.19", "bulk": "31", "unit": "39.19", "unitN": 39.19, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 78.38, "name": "海霜雾月", "badgeCount": 2, "thumbs": ["imgs/98.jpg"]}, {"names": ["绯月赤兔"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "绯月", "qty": 1, "qtyN": 1.0, "share": "8.35", "bulk": "28", "unit": "36.34", "unitN": 36.345, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "赤兔", "qty": 1, "qtyN": 1.0, "share": "8.35", "bulk": "28", "unit": "36.34", "unitN": 36.345, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 72.69, "name": "绯月赤兔", "badgeCount": 2, "thumbs": ["imgs/99.jpg"]}, {"names": ["莓狼道服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "莓玲道服", "qty": 1, "qtyN": 1.0, "share": "7.12", "bulk": "26", "unit": "33.12", "unitN": 33.115, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "小狼道服", "qty": 1, "qtyN": 1.0, "share": "7.12", "bulk": "28", "unit": "35.12", "unitN": 35.115, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 68.23, "name": "莓狼道服", "badgeCount": 2, "thumbs": ["imgs/100.jpg"]}, {"names": ["古董玩偶"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "蓝色款", "qty": 1, "qtyN": 1.0, "share": "9.72", "bulk": "30", "unit": "39.72", "unitN": 39.72, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "红色款", "qty": 1, "qtyN": 1.0, "share": "9.72", "bulk": "34", "unit": "43.72", "unitN": 43.72, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 83.44, "name": "古董玩偶", "badgeCount": 2, "thumbs": ["imgs/101.jpg"]}, {"names": ["桃矢望月"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "月变身", "qty": 1, "qtyN": 1.0, "share": "8.04", "bulk": "27", "unit": "35.05", "unitN": 35.045, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "校服款", "qty": 1, "qtyN": 1.0, "share": "8.04", "bulk": "24", "unit": "32.05", "unitN": 32.045, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 67.09, "name": "桃矢望月", "badgeCount": 2, "thumbs": ["imgs/102.jpg"]}, {"names": ["棉雨绒兔"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "粉蓝兔兔", "qty": 1, "qtyN": 1.0, "share": "10.91", "bulk": "31", "unit": "41.91", "unitN": 41.915, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "白粉翅膀", "qty": 1, "qtyN": 1.0, "share": "10.91", "bulk": "31", "unit": "41.91", "unitN": 41.915, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 83.83, "name": "棉雨绒兔", "badgeCount": 2, "thumbs": ["imgs/103.jpg"]}, {"names": ["铠影誓约"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "红蓝铠装", "qty": 1, "qtyN": 1.0, "share": "6.5", "bulk": "34", "unit": "40.49", "unitN": 40.495, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "短袖校服", "qty": 1, "qtyN": 1.0, "share": "6.5", "bulk": "34", "unit": "40.49", "unitN": 40.495, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 80.99, "name": "铠影誓约", "badgeCount": 2, "thumbs": ["imgs/104.jpg"]}, {"names": ["小樱权杖"], "form": "同群对入", "sp": "", "items": [{"cat": "小物", "content": "鸟头杖钥匙版", "qty": 1, "qtyN": 1.0, "share": "11.77", "bulk": "13", "unit": "24.77", "unitN": 24.77, "note": "184.62", "isTrinket": false, "isBonus": false, "setPrice": 61.54, "setKey": "鸟头杖"}, {"cat": "小物", "content": "鸟头杖权杖版", "qty": 1, "qtyN": 1.0, "share": "11.77", "bulk": "25", "unit": "36.77", "unitN": 36.77, "note": "", "isTrinket": false, "isBonus": false, "setPrice": 61.54, "setKey": "鸟头杖"}, {"cat": "小物", "content": "星之杖钥匙版", "qty": 1, "qtyN": 1.0, "share": "11.77", "bulk": "13", "unit": "24.77", "unitN": 24.77, "note": "", "isTrinket": false, "isBonus": false, "setPrice": 61.54, "setKey": "星之杖"}, {"cat": "小物", "content": "星之杖权杖版", "qty": 1, "qtyN": 1.0, "share": "11.77", "bulk": "25", "unit": "36.77", "unitN": 36.77, "note": "", "isTrinket": false, "isBonus": false, "setPrice": 61.54, "setKey": "星之杖"}, {"cat": "小物", "content": "梦之杖钥匙版", "qty": 1, "qtyN": 1.0, "share": "11.77", "bulk": "13", "unit": "24.77", "unitN": 24.77, "note": "", "isTrinket": false, "isBonus": false, "setPrice": 61.54, "setKey": "梦之杖"}, {"cat": "小物", "content": "梦之杖权杖版", "qty": 1, "qtyN": 1.0, "share": "11.77", "bulk": "25", "unit": "36.77", "unitN": 36.77, "note": "", "isTrinket": false, "isBonus": false, "setPrice": 61.54, "setKey": "梦之杖"}], "note": "184.62", "total": 184.62, "name": "小樱权杖", "badgeCount": 6, "thumbs": ["imgs/105.jpg"], "setPriceLabel": "单套价格"}], "spTotals": {}, "total": 1343.92, "sheetTotal": 1343.92}, {"name": "蔷薇", "sheet": "蔷薇衣橱", "color": "#A88CD9", "groups": [{"names": ["真红雏莓"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "真红", "qty": 1, "qtyN": 1.0, "share": "9.42", "bulk": "31", "unit": "40.42", "unitN": 40.42, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "雏莓", "qty": 1, "qtyN": 1.0, "share": "9.42", "bulk": "33", "unit": "42.42", "unitN": 42.42, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 82.84, "name": "真红雏莓", "badgeCount": 2, "thumbs": ["imgs/106.jpg"], "section": "蔷薇·经典版"}, {"names": ["水银灯金丝雀"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "水银灯", "qty": 1, "qtyN": 1.0, "share": "9.45", "bulk": "27", "unit": "36.45", "unitN": 36.45, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "金丝雀", "qty": 1, "qtyN": 1.0, "share": "9.45", "bulk": "35", "unit": "44.45", "unitN": 44.45, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 80.9, "name": "水银灯金丝雀", "badgeCount": 2, "thumbs": ["imgs/107.jpg"], "section": "蔷薇·经典版"}, {"names": ["苍翠星石"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "苍星石", "qty": 1, "qtyN": 1.0, "share": "10.44", "bulk": "25", "unit": "35.44", "unitN": 35.44, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "翠星石", "qty": 1, "qtyN": 1.0, "share": "10.44", "bulk": "26", "unit": "36.44", "unitN": 36.44, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 71.88, "name": "苍翠星石", "badgeCount": 2, "thumbs": ["imgs/108.jpg"], "section": "蔷薇·经典版"}, {"names": ["雪华蔷薇"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "雪华", "qty": 1, "qtyN": 1.0, "share": "10.29", "bulk": "27", "unit": "37.28", "unitN": 37.285, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "蔷薇", "qty": 1, "qtyN": 1.0, "share": "10.29", "bulk": "27", "unit": "37.28", "unitN": 37.285, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 74.57, "name": "雪华蔷薇", "badgeCount": 2, "thumbs": ["imgs/109.jpg"], "section": "蔷薇·经典版"}, {"names": ["大正·真红雏莓"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "真红", "qty": 1, "qtyN": 1.0, "share": "12.04", "bulk": "29", "unit": "41.05", "unitN": 41.045, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "雏莓", "qty": 1, "qtyN": 1.0, "share": "12.04", "bulk": "29", "unit": "41.05", "unitN": 41.045, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 82.09, "name": "大正·真红雏莓", "badgeCount": 2, "thumbs": ["imgs/110.jpg"], "section": "大正蔷薇"}, {"names": ["大正·水银灯金丝雀"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "水银灯", "qty": 1, "qtyN": 1.0, "share": "12.55", "bulk": "32", "unit": "44.55", "unitN": 44.55, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "金丝雀", "qty": 1, "qtyN": 1.0, "share": "12.55", "bulk": "30", "unit": "42.55", "unitN": 42.55, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 87.1, "name": "大正·水银灯金丝雀", "badgeCount": 2, "thumbs": ["imgs/111.jpg"], "section": "大正蔷薇"}, {"names": ["大正·苍翠星石"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "苍星石", "qty": 1, "qtyN": 1.0, "share": "11.84", "bulk": "29", "unit": "40.84", "unitN": 40.835, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "翠星石", "qty": 1, "qtyN": 1.0, "share": "11.84", "bulk": "28", "unit": "39.84", "unitN": 39.835, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 80.67, "name": "大正·苍翠星石", "badgeCount": 2, "thumbs": ["imgs/112.jpg"], "section": "大正蔷薇"}, {"names": ["大正·雪华蔷薇"], "form": "同车单入", "sp": "", "items": [{"cat": "衣橱", "content": "雪华", "qty": 1, "qtyN": 1.0, "share": "9.21", "bulk": "29", "unit": "38.21", "unitN": 38.21, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "蔷薇", "qty": 1, "qtyN": 1.0, "share": "9.21", "bulk": "29", "unit": "38.21", "unitN": 38.21, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 76.42, "name": "大正·雪华蔷薇", "badgeCount": 2, "thumbs": ["imgs/113.jpg"], "section": "大正蔷薇"}, {"names": ["浮雕小物"], "form": "套入", "sp": "", "items": [{"cat": "小物", "content": "玩偶钥匙", "qty": 1, "qtyN": 1.0, "share": "6.58", "bulk": "9", "unit": "15.58", "unitN": 15.58, "note": "", "isTrinket": true, "isBonus": false}, {"cat": "小物", "content": "浮雕头像", "qty": 1, "qtyN": 1.0, "share": "6.58", "bulk": "9", "unit": "15.58", "unitN": 15.58, "note": "", "isTrinket": true, "isBonus": false}, {"cat": "小物", "content": "戒指", "qty": 1, "qtyN": 1.0, "share": "6.58", "bulk": "9", "unit": "15.58", "unitN": 15.58, "note": "", "isTrinket": true, "isBonus": false}, {"cat": "小物", "content": "公文包", "qty": 1, "qtyN": 1.0, "share": "6.58", "bulk": "9", "unit": "15.58", "unitN": 15.58, "note": "", "isTrinket": true, "isBonus": false}], "note": "", "total": 62.32, "name": "浮雕小物", "badgeCount": 4, "thumbs": ["imgs/114.jpg"]}], "spTotals": {}, "total": 698.79, "sheetTotal": 698.79}, {"name": "偶活", "sheet": "偶活衣橱", "color": "#E0A26B", "groups": [{"names": ["星光制服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "长袖校服", "qty": 1, "qtyN": 1.0, "share": "10.09", "bulk": "24", "unit": "34.09", "unitN": 34.085, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "短袖校服", "qty": 1, "qtyN": 1.0, "share": "10.09", "bulk": "24", "unit": "34.09", "unitN": 34.085, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 68.17, "name": "星光制服", "badgeCount": 2, "thumbs": ["imgs/115.jpg"]}, {"names": ["梦想制服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "西装校服", "qty": 1, "qtyN": 1.0, "share": "13.2", "bulk": "28", "unit": "41.2", "unitN": 41.2, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "毛衣校服", "qty": 1, "qtyN": 1.0, "share": "13.2", "bulk": "28", "unit": "41.2", "unitN": 41.2, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 82.4, "name": "梦想制服", "badgeCount": 2, "thumbs": ["imgs/116.jpg"]}, {"names": ["入学服1.0"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "莓", "qty": 1, "qtyN": 1.0, "share": "11.3", "bulk": "26", "unit": "37.3", "unitN": 37.3, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "葵", "qty": 1, "qtyN": 1.0, "share": "11.3", "bulk": "26", "unit": "37.3", "unitN": 37.3, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "兰", "qty": 1, "qtyN": 1.0, "share": "11.3", "bulk": "26", "unit": "37.3", "unitN": 37.3, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "枫", "qty": 1, "qtyN": 1.0, "share": "11.3", "bulk": "27", "unit": "38.3", "unitN": 38.3, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 150.2, "name": "入学服1.0", "badgeCount": 4, "thumbs": ["imgs/117.jpg"]}, {"names": ["入学服2.0"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "美月", "qty": 1, "qtyN": 1.0, "share": "11.6", "bulk": "33", "unit": "44.6", "unitN": 44.6, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "尤里卡", "qty": 1, "qtyN": 1.0, "share": "11.6", "bulk": "31", "unit": "42.6", "unitN": 42.6, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "乙女", "qty": 1, "qtyN": 1.0, "share": "11.6", "bulk": "35", "unit": "46.6", "unitN": 46.6, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "樱", "qty": 1, "qtyN": 1.0, "share": "11.6", "bulk": "31", "unit": "42.6", "unitN": 42.6, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 176.4, "name": "入学服2.0", "badgeCount": 4, "thumbs": ["imgs/118.jpg"]}, {"names": ["高稀1.0"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "莓", "qty": 1, "qtyN": 1.0, "share": "8.96", "bulk": "31", "unit": "39.96", "unitN": 39.96, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "葵", "qty": 1, "qtyN": 1.0, "share": "8.96", "bulk": "31", "unit": "39.96", "unitN": 39.96, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "兰", "qty": 1, "qtyN": 1.0, "share": "8.96", "bulk": "31", "unit": "39.96", "unitN": 39.96, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "枫", "qty": 1, "qtyN": 1.0, "share": "8.96", "bulk": "38", "unit": "46.96", "unitN": 46.96, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 166.84, "name": "高稀1.0", "badgeCount": 4, "thumbs": ["imgs/119.jpg"]}, {"names": ["高稀2.0"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "美月", "qty": 1, "qtyN": 1.0, "share": "9.72", "bulk": "39", "unit": "48.72", "unitN": 48.72, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "尤里卡", "qty": 1, "qtyN": 1.0, "share": "9.72", "bulk": "38", "unit": "47.72", "unitN": 47.72, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "乙女", "qty": 1, "qtyN": 1.0, "share": "9.72", "bulk": "36", "unit": "45.72", "unitN": 45.72, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "樱", "qty": 1, "qtyN": 1.0, "share": "9.72", "bulk": "39", "unit": "48.72", "unitN": 48.72, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 190.88, "name": "高稀2.0", "badgeCount": 4, "thumbs": ["imgs/120.jpg"]}, {"names": ["莓葵可丽饼"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "莓", "qty": 1, "qtyN": 1.0, "share": "7.92", "bulk": "37", "unit": "44.91", "unitN": 44.915, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "葵", "qty": 1, "qtyN": 1.0, "share": "7.92", "bulk": "37", "unit": "44.91", "unitN": 44.915, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 89.83, "name": "莓葵可丽饼", "badgeCount": 2, "thumbs": ["imgs/121.jpg"]}, {"names": ["Soleil队服"], "form": "套入", "sp": "", "items": [{"cat": "衣橱", "content": "葵", "qty": 1, "qtyN": 1.0, "share": "7.62", "bulk": "36", "unit": "43.62", "unitN": 43.62, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莓", "qty": 1, "qtyN": 1.0, "share": "7.62", "bulk": "36", "unit": "43.62", "unitN": 43.62, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "兰", "qty": 1, "qtyN": 1.0, "share": "7.62", "bulk": "36", "unit": "43.62", "unitN": 43.62, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 130.86, "name": "Soleil队服", "badgeCount": 3, "thumbs": ["imgs/122.jpg"]}, {"names": ["星宫莓常服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "冬季常服", "qty": 1, "qtyN": 1.0, "share": "11.27", "bulk": "28", "unit": "39.27", "unitN": 39.27, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "运动服", "qty": 1, "qtyN": 1.0, "share": "11.27", "bulk": "27", "unit": "38.27", "unitN": 38.27, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 77.54, "name": "星宫莓常服", "badgeCount": 2, "thumbs": ["imgs/123.jpg"]}, {"names": ["星彩祭典"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "高级礼服", "qty": 1, "qtyN": 1.0, "share": "10.99", "bulk": "39", "unit": "49.99", "unitN": 49.99, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 49.99, "name": "星彩祭典", "badgeCount": 1, "thumbs": ["imgs/124.jpg"]}], "spTotals": {}, "total": 1183.11, "sheetTotal": 1183.11}, {"name": "双子", "sheet": "双子衣橱", "color": "#8CB88A", "groups": [{"names": ["法莲常服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "法音", "qty": 1, "qtyN": 1.0, "share": "11.95", "bulk": "26", "unit": "37.95", "unitN": 37.95, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莲音", "qty": 1, "qtyN": 1.0, "share": "11.95", "bulk": "26", "unit": "37.95", "unitN": 37.95, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 75.9, "name": "法莲常服", "badgeCount": 2, "thumbs": ["imgs/125.jpg"]}, {"names": ["法莲变身"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "法音", "qty": 1, "qtyN": 1.0, "share": "6.64", "bulk": "26", "unit": "32.65", "unitN": 32.645, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莲音", "qty": 1, "qtyN": 1.0, "share": "6.64", "bulk": "26", "unit": "32.65", "unitN": 32.645, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 65.29, "name": "法莲变身", "badgeCount": 2, "thumbs": ["imgs/126.jpg"]}, {"names": ["太阳礼服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "法音", "qty": 1, "qtyN": 1.0, "share": "7.46", "bulk": "33", "unit": "40.47", "unitN": 40.465, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莲音", "qty": 1, "qtyN": 1.0, "share": "7.46", "bulk": "33", "unit": "40.47", "unitN": 40.465, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 80.93, "name": "太阳礼服", "badgeCount": 2, "thumbs": ["imgs/127.jpg"]}, {"names": ["法莲制服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "法音", "qty": 1, "qtyN": 1.0, "share": "10.7", "bulk": "33", "unit": "43.7", "unitN": 43.7, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莲音", "qty": 1, "qtyN": 1.0, "share": "10.7", "bulk": "33", "unit": "43.7", "unitN": 43.7, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 87.4, "name": "法莲制服", "badgeCount": 2, "thumbs": ["imgs/128.jpg"]}, {"names": ["双子礼服"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "法音", "qty": 1, "qtyN": 1.0, "share": "11.55", "bulk": "29", "unit": "40.55", "unitN": 40.55, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莲音", "qty": 1, "qtyN": 1.0, "share": "11.55", "bulk": "29", "unit": "40.55", "unitN": 40.55, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 81.1, "name": "双子礼服", "badgeCount": 2, "thumbs": ["imgs/129.jpg"]}, {"names": ["花瓣变身1.0"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "法音", "qty": 1, "qtyN": 1.0, "share": "7.61", "bulk": "36", "unit": "43.61", "unitN": 43.61, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莲音", "qty": 1, "qtyN": 1.0, "share": "7.61", "bulk": "36", "unit": "43.61", "unitN": 43.61, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 87.22, "name": "花瓣变身1.0", "badgeCount": 2, "thumbs": ["imgs/130.jpg"]}, {"names": ["花瓣变身2.0"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "法音", "qty": 1, "qtyN": 1.0, "share": "7.74", "bulk": "37", "unit": "44.74", "unitN": 44.74, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "莲音", "qty": 1, "qtyN": 1.0, "share": "7.74", "bulk": "37", "unit": "44.74", "unitN": 44.74, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 89.48, "name": "花瓣变身2.0", "badgeCount": 2, "thumbs": ["imgs/131.jpg"]}], "spTotals": {}, "total": 567.32, "sheetTotal": 567.32}, {"name": "芭比", "sheet": "芭比衣橱", "color": "#E58FB4", "groups": [{"names": ["彩虹仙子1.0"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "粉色翅膀花瓣裙", "qty": 1, "qtyN": 1.0, "share": "9.37", "bulk": "26", "unit": "35.37", "unitN": 35.37, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "彩虹翅膀花瓣裙", "qty": 1, "qtyN": 1.0, "share": "9.37", "bulk": "29", "unit": "38.37", "unitN": 38.37, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 73.74, "name": "彩虹仙子1.0", "badgeCount": 2, "thumbs": ["imgs/132.jpg"]}, {"names": ["彩虹仙子2.0"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "粉色蝴蝶翅膀花瓣裙", "qty": 1, "qtyN": 1.0, "share": "10.47", "bulk": "28", "unit": "38.48", "unitN": 38.475, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "粉鱼尾", "qty": 1, "qtyN": 1.0, "share": "10.47", "bulk": "28", "unit": "38.48", "unitN": 38.475, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 76.95, "name": "彩虹仙子2.0", "badgeCount": 2, "thumbs": ["imgs/133.jpg"]}, {"names": ["胡桃夹子"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "紫色公爵夫人裙", "qty": 1, "qtyN": 1.0, "share": "10.05", "bulk": "27", "unit": "37.05", "unitN": 37.05, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "粉色芭蕾舞裙", "qty": 1, "qtyN": 1.0, "share": "10.05", "bulk": "33", "unit": "43.05", "unitN": 43.05, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 80.1, "name": "胡桃夹子", "badgeCount": 2, "thumbs": ["imgs/134.jpg"]}, {"names": ["长发公主"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "粉色常服", "qty": 1, "qtyN": 1.0, "share": "10.02", "bulk": "27", "unit": "37.02", "unitN": 37.02, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "紫色礼服", "qty": 1, "qtyN": 1.0, "share": "10.02", "bulk": "27", "unit": "37.02", "unitN": 37.02, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 74.04, "name": "长发公主", "badgeCount": 2, "thumbs": ["imgs/135.jpg"]}], "spTotals": {}, "total": 304.83, "sheetTotal": 304.83}, {"name": "魔仙", "sheet": "魔仙衣橱", "color": "#9B8CE0", "groups": [{"names": ["莉莉小月"], "form": "对入", "sp": "", "items": [{"cat": "衣橱", "content": "小月", "qty": 1, "qtyN": 1.0, "share": "6.43", "bulk": "42", "unit": "48.43", "unitN": 48.43, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "严莉莉", "qty": 1, "qtyN": 1.0, "share": "6.43", "bulk": "42", "unit": "48.43", "unitN": 48.43, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 96.86, "name": "莉莉小月", "badgeCount": 2, "thumbs": ["imgs/136.jpg"]}], "spTotals": {}, "total": 96.86, "sheetTotal": null}, {"name": "杂IP", "sheet": "杂衣橱", "color": "#B09A85", "groups": [{"names": ["狂赌衣橱"], "form": "单入", "sp": "", "items": [{"cat": "衣橱", "content": "梦子", "qty": 1, "qtyN": 1.0, "share": "13.74", "bulk": "24", "unit": "37.74", "unitN": 37.74, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 37.74, "name": "狂赌衣橱", "badgeCount": 1, "thumbs": ["imgs/137.jpg"]}, {"names": ["美战衣橱"], "form": "同群套入", "sp": "", "items": [{"cat": "衣橱", "content": "月野兔", "qty": 1, "qtyN": 1.0, "share": "13.14", "bulk": "25", "unit": "38.14", "unitN": 38.14, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "水野亚美（水星）", "qty": 1, "qtyN": 1.0, "share": "13.14", "bulk": "25", "unit": "38.14", "unitN": 38.14, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "火野丽（火星）", "qty": 1, "qtyN": 1.0, "share": "13.14", "bulk": "26", "unit": "39.14", "unitN": 39.14, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "木野真琴（木星）", "qty": 1, "qtyN": 1.0, "share": "13.14", "bulk": "25", "unit": "38.14", "unitN": 38.14, "note": "", "isTrinket": false, "isBonus": false}, {"cat": "衣橱", "content": "爱野美奈子（金星）", "qty": 1, "qtyN": 1.0, "share": "13.14", "bulk": "26", "unit": "39.14", "unitN": 39.14, "note": "", "isTrinket": false, "isBonus": false}], "note": "", "total": 192.7, "name": "美战衣橱", "badgeCount": 5, "thumbs": ["imgs/138.jpg"]}], "spTotals": {}, "total": 230.44, "sheetTotal": null}], "warnings": ["人鱼：表内「全车总计 1909.06」未含「浮雕小物」组（¥530.28），看板按明细行计入，人鱼合计 ¥2439.34"], "buildTime": "2026-09-14 21:47", "buildHash": "abfa75995412", "cloud": {"url": "https://a6a2f50b3618472da630580f82dc14a4.app.workbuddy.link", "published": "", "fingerprint": "abfa75995412"}};
+const S = DATA.stats, SERIES = DATA.series;
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = x => '¥' + (Math.round(x*100)/100).toFixed(2).replace(/\.?0+$/,'') || '¥0';
+const money2 = x => '¥' + (+x).toFixed(2);
+const NUM = v => { const n = parseFloat(v); return isFinite(n) ? n : null; };
+
+/* ---------- 头部 ---------- */
+$('#hdrSub').textContent =
+  `${S.seriesCount} 大系列 · ${S.groupCount} 车 · ${S.badgeCount} 枚徽章 · 总投入 ${money2(S.grand)} · 均 ${money2(S.avg)}`;
+$('#hdrDots').innerHTML = SERIES.map(s=>`<i style="background:${s.color}"></i>`).join('');
+$('#ftCnt').textContent = `${S.groupCount} 车 / ${S.badgeCount} 枚 / ${S.imgCount} 图`;
+$('#ftBuild').textContent = '生成时间 ' + (DATA.buildTime || '');
+$('#ftSource').textContent = '数据源：妮妮衣橱-ALL车明细表【有图共阅版】';
+
+/* ---------- 云端链接条 ---------- */
+if (DATA.cloud && DATA.cloud.url){
+  /* 用内容哈希判断云端是否过期：模板/数据/构建脚本任一改动都会变，
+     所以只改标题或样式（数据没动）也能正确提示 */
+  const fp = DATA.buildHash || [S.grand, S.badgeCount, S.groupCount, S.seriesCount].join('|');
+  const outdated = DATA.cloud.fingerprint && DATA.cloud.fingerprint !== fp;
+  $('#cloudBar').style.display = 'flex';
+  $('#cloudBar').innerHTML =
+    `<span class="lb">📱 云端版（微信可打开）</span>` +
+    `<a href="${esc(DATA.cloud.url)}" target="_blank" rel="noopener">${esc(DATA.cloud.url)}</a>` +
+    `<span>最近发布 ${esc(DATA.cloud.published || '—')}</span>` +
+    (outdated ? `<span class="tag warn">本地已更新，云端待重新发布</span>` : '');
+}
+
+/* ---------- 页签 ----------
+   懒渲染：启动只渲染「明细总表」，其余面板首次点开才渲染。
+   手机端整站卡顿的主因就是 5 个面板（约上万节点）一次性全量渲染。 */
+const panelInit = {
+  series: renderSeries,
+  compare: renderCompare,
+  overview: renderOverview,
+  mine: ()=>{ mineLoad(); renderMine(); }
+};
+const panelReady = { detail:true };
+$('#tabs').querySelectorAll('button').forEach(btn=>{
+  btn.onclick = ()=>{
+    $('#tabs').querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+    const p = $('#p-'+btn.dataset.p);
+    p.classList.add('on');
+    if (!panelReady[btn.dataset.p] && panelInit[btn.dataset.p]){
+      panelInit[btn.dataset.p]();           /* 面板已可见，此时渲染滚动定位才有效 */
+      panelReady[btn.dataset.p] = true;
+    }
+    if (btn.dataset.p === 'mine') qwInitAll($('#mineBody'));  /* 每次打开都重新定位滚轮（隐藏时 scrollTop 赋值无效） */
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+/* ---------- lightbox ---------- */
+const lb = $('#lb');
+window.showImg = (src, cap)=>{
+  $('#lbImg').src = src; $('#lbCap').textContent = cap||'';
+  lb.classList.add('on');
+};
+lb.onclick = ()=>lb.classList.remove('on');
+
+/* ---------- 行异常检测 ---------- */
+function rowWarn(it){
+  const a=NUM(it.share), b=NUM(it.bulk), u=NUM(it.unit);
+  return (a!==null && b!==null && u!==null && Math.abs(a+b-u)>0.02);
+}
+/* 数量列：只放数字，原值（如「9个/套」）挂 title，收窄列宽避免手机横向滑动 */
+function qtyTd(it){
+  const raw = String(it.qty === '' ? 1 : it.qty);
+  return (it.qtyN > 1 && raw !== String(it.qtyN))
+    ? `<td class="c-qty c-num" title="${esc(raw)}">${it.qtyN}</td>`
+    : `<td class="c-qty c-num">${esc(raw)}</td>`;
+}
+const isTeDian = it => /特典/.test(it.content);
+
+/* =========================================================
+   面板 1：明细总表
+========================================================= */
+const det = { idx:0, kw:'' };
+
+function renderDetChips(){
+  $('#detChips').innerHTML = SERIES.map((s,i)=>
+    `<button class="chip ${i===det.idx?'on':''}" data-i="${i}">
+      <span class="cdot" style="background:${s.color}"></span>${esc(s.name)}<b>${s.groups.length}</b></button>`).join('');
+  $('#detChips').querySelectorAll('.chip').forEach(c=>{
+    c.onclick = ()=>{ det.idx=+c.dataset.i; det.kw=''; $('#detSearch').value=''; renderDetail(); };
+  });
+}
+
+function carCard(g, color){
+  const imgs = g.thumbs||[];
+  const shot = t => `<div class="main" onclick="showImg('${t}','${esc(g.name).replace(/'/g,'&#39;')}')"><img src="${t}" alt="${esc(g.name)}" loading="lazy"></div>`;
+  // 1 张 → 单图；2 张 → 上下两个完全等大的框（图片等比缩放不裁切）；3 张以上 → 首图 + 缩略条
+  let imgsHtml;
+  if (!imgs.length) imgsHtml = `<div class="noimg">无宣图</div>`;
+  else if (imgs.length <= 2) imgsHtml = imgs.map(shot).join('');
+  else imgsHtml = shot(imgs[0]) +
+    `<div class="strip">${imgs.slice(1).map(t=>`<img src="${t}" loading="lazy" onclick="showImg('${t}','${esc(g.name)}')">`).join('')}</div>`;
+  const imgsCls = !imgs.length ? 'single' : (imgs.length<=2 ? (imgs.length===1?'single':'duo') : 'single');
+
+  // ---- 单套价列（人鱼浮雕小物 / 小樱权杖）----
+  const hasSet = !!g.setPriceLabel;
+  const setCells = [];     // 每项：{rows, val} 或 null
+  if (hasSet){
+    let run = null;
+    g.items.forEach(it=>{
+      const key = (it.setPrice!=null) ? (it.setKey || String(it.setPrice)) : null;
+      // 同一套（人鱼：每个设计一套；小樱：同名钥匙版+权杖版一套）合并为一个单元格
+      if (run && key!==null && key===run.key){ run.rows++; setCells.push(null); }
+      else if (key!==null){ run = {key, val:it.setPrice, rows:1}; setCells.push(run); }
+      else { run = null; setCells.push({val:null, rows:1}); }
+    });
+  }
+  const rows = g.items.map((it,i)=>{
+    const w = rowWarn(it) ? '<span class="tag warn" title="均摊+大货≠单件，以单件为准">⚠</span> ' : '';
+    const td = isTeDian(it) ? '<span class="tag pink">特典</span> ' : '';
+    /* 属性（衣橱 / 小物）：宽屏走独立列；≤400px 极窄屏列宽归零，改由这里的内联小标呈现 */
+    const cat = it.cat || '衣橱';
+    const catTag = `<span class="cat-tag${cat==='小物'?' x':''}">${esc(cat)}</span>`;
+    let setTd = '';
+    if (hasSet){
+      const cell = setCells[i];
+      if (cell && cell.val!=null)
+        setTd = `<td class="c-set c-num"${cell.rows>1?` rowspan="${cell.rows}"`:''}><b>${money2(cell.val)}</b></td>`;
+      else if (cell && cell.val===null)
+        setTd = `<td class="c-set c-num"></td>`;
+    }
+    return `<tr>
+      <td class="c-content">${td}${esc(it.content)}<span class="c-catline">${catTag}</span></td>
+      ${qtyTd(it)}
+      <td class="c-num">${esc(it.share)}</td>
+      <td class="c-num">${esc(it.bulk)}</td>
+      <td class="c-num"><b>${esc(it.unit)}</b>${w}</td>
+      ${setTd}
+    </tr>`;
+  }).join('');
+  const notes = [];
+  if (g.note) notes.push(`<span class="tag">📝 ${esc(g.note)}</span>`);
+  if (g.items.some(rowWarn)) notes.push('<span class="tag warn">⚠ 部分行 均摊+大货≠单件，以单件为准</span>');
+  if (!imgs.length) notes.push('<span class="tag">该车暂无宣图</span>');
+  if (hasSet) notes.push(`<span class="tag pink">${esc(g.setPriceLabel)}${g.name==='浮雕小物'?' = 单件 × 9':' = 钥匙版 + 权杖版'}</span>`);
+  return `<article class="car">
+    <div class="car-imgs ${imgsCls}">${imgsHtml}</div>
+    <div class="car-main">
+      <div class="car-head">
+        <h4>${esc(g.name)}</h4>
+        ${g.form?`<span class="tag">${esc(g.form)}</span>`:''}
+        <span class="tag">${g.badgeCount} 枚</span>
+        <span class="spacer"></span>
+        <span class="price">${money2(g.total)}</span>
+      </div>
+      <table class="car-tbl">
+        <colgroup>
+          <col class="c-content"><col class="c-qty">
+          <col class="c-num"><col class="c-num"><col class="c-num">
+          ${hasSet?'<col class="c-set">':''}
+        </colgroup>
+        <thead><tr><th class="c-content">内容</th><th class="c-qty">数量</th><th class="c-num">均摊</th><th class="c-num">大货</th><th class="c-num">单件</th>${hasSet?`<th class="c-set">${esc(g.setPriceLabel)}</th>`:''}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="car-note">${notes.join('')}</div>
+    </div>
+  </article>`;
+}
+
+function renderDetail(){
+  const s = SERIES[det.idx];
+  const badges = s.groups.reduce((a,g)=>a+g.badgeCount,0);
+  $('#detSum').innerHTML =
+    `<span><b>${s.groups.length}</b> 车</span>
+     <span><b>${badges}</b> 枚</span>
+     <span>系列投入 <b class="tot">${money2(s.total)}</b></span>
+     <span>均单价 <b>${money2(s.total/badges)}</b></span>
+     <span>宣图 <b>${s.groups.reduce((a,g)=>a+(g.thumbs||[]).length,0)}</b> 张</span>`;
+  renderDetChips();
+
+  const kw = det.kw.trim().toLowerCase();
+  const list = s.groups.filter(g => !kw ||
+    g.name.toLowerCase().includes(kw) ||
+    g.items.some(it => it.content.toLowerCase().includes(kw)));
+
+  // 按 section 分段（蔷薇：经典版 / 大正），无 section 的系列整体不加框
+  let html = '', lastSp = null, buf = [], sec = undefined, secSum = 0, secCnt = 0, secBadges = 0;
+  const flush = ()=>{
+    if (!buf.length) return;
+    const inner = `<div class="cars">${buf.join('')}</div>`;
+    html += sec
+      ? `<div class="sec-box"><div class="sec-t">${esc(sec)}<small>${secCnt} 车 · ${money2(secSum)} · ${secBadges} 枚</small></div>${inner}</div>`
+      : inner;
+    buf = []; secSum = 0; secCnt = 0; secBadges = 0;
+  };
+  list.forEach(g=>{
+    const gs = g.section || null;
+    if (gs !== sec){ flush(); sec = gs; }
+    if (s.spTotals && g.sp && g.sp !== lastSp){
+      const spGroups = s.groups.filter(x=>x.sp===g.sp);
+      const spSum = spGroups.reduce((a,x)=>a+x.total,0);
+      buf.push(`<div class="sp-h">${esc(g.sp)}<small>${spGroups.length} 车 · ${money2(spSum)}</small></div>`);
+      lastSp = g.sp;
+    }
+    buf.push(carCard(g, s.color));
+    secSum += g.total; secCnt++; secBadges += g.badgeCount;
+  });
+  flush();
+  const shown = list.length;
+  $('#detCnt').textContent = `显示 ${shown} / ${s.groups.length} 车`;
+  $('#detBody').innerHTML = shown ? html
+    : `<div class="empty-tip">没有匹配「${esc(det.kw)}」的衣橱</div>`;
+}
+$('#detSearch').addEventListener('input', e=>{ det.kw = e.target.value; renderDetail(); });
+
+/* =========================================================
+   面板 2：逐系列详情
+========================================================= */
+const ser = { idx:0 };
+
+function hbarSVG(rows, opts){
+  // rows: [{label, value, color}]
+  const W = 680, rowH = opts.rowH||30, padT = 8;
+  const maxLen = Math.max(...rows.map(r=>r.label.length));
+  const padL = Math.min(250, Math.max(70, maxLen*13.2 + 18));
+  const padR = 74;
+  const H = padT + rows.length*rowH + 4;
+  const max = Math.max(...rows.map(r=>r.value)) || 1;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  rows.forEach((r,i)=>{
+    const y = padT + i*rowH;
+    const bw = (W-padL-padR) * r.value / max;
+    s += `<text x="${padL-10}" y="${y+rowH/2+4.5}" text-anchor="end" font-size="12.8" fill="#3D3230">${esc(r.label)}</text>`;
+    s += `<rect x="${padL}" y="${y+6}" width="${Math.max(2.5,bw)}" height="${rowH-12}" rx="4.5" fill="${r.color}" opacity=".92"/>`;
+    s += `<text x="${padL+Math.max(2.5,bw)+8}" y="${y+rowH/2+4.5}" font-size="12" fill="#7A6A65">${money(r.value)}</text>`;
+  });
+  return `<div class="chart-scroll">` + s + '</svg></div>';
+}
+
+function renderSerChips(){
+  $('#serChips').innerHTML = SERIES.map((s,i)=>
+    `<button class="chip ${i===ser.idx?'on':''}" data-i="${i}">
+      <span class="cdot" style="background:${s.color}"></span>${esc(s.name)}<b>${s.groups.length}</b></button>`).join('');
+  $('#serChips').querySelectorAll('.chip').forEach(c=>{
+    c.onclick = ()=>{ ser.idx=+c.dataset.i; renderSeries(); };
+  });
+}
+
+/* 逐枚单价柱状图：每枚章子一根柱（高=单件价），按车分组，组上方标该车总投入。
+   「9个/套」的浮雕小物按每行设计 9 根细柱展示。 */
+function unitBarsCard(s){
+  const groups = s.groups.map(g=>{
+    const rows = [];
+    g.items.forEach(it=>{
+      const n = Math.max(1, Math.round(it.qtyN||1));
+      rows.push({
+        label: `${g.name}-${it.content}` + (n>1 ? ` ×${n}` : ''),
+        v: +(it.unitN||0), n
+      });
+    });
+    return { name:g.name, total:g.total, rows };
+  });
+
+  const maxV = Math.max(1, ...groups.flatMap(g=>g.rows.map(r=>r.v)));
+  const top = Math.ceil(maxV/10)*10 || 10;           // y 轴上限取整
+  const VBW=1100, padL=44, padR=10, CH=190, padT=26; // padT 上方留给总价标注
+  const barW=15, thinW=5, gap=3, thinSp=1, groupPad=9, groupGap=18, minGW=56;
+  const maxLen = Math.max(8, ...groups.flatMap(g=>g.rows.map(r=>r.label.length)));
+  const labH = Math.min(118, Math.max(52, maxLen*6.9));
+  const rowH = padT + CH + 12 + labH;
+
+  // 每组宽度
+  groups.forEach(g=>{
+    const w = g.rows.reduce((a,r)=>{
+      const bw = r.n>1 ? r.n*thinW+(r.n-1)*thinSp : barW;
+      return a + bw + gap;
+    }, 0) - gap;
+    g.w = Math.max(minGW, w + groupPad*2);
+  });
+
+  // 分块：一行放不下的车折到下一块
+  const chunks = []; let cur=[], curW=0;
+  groups.forEach(g=>{
+    const gw = g.w + (cur.length ? groupGap : 0);
+    if (cur.length && curW+gw > VBW-padL-padR){ chunks.push(cur); cur=[g]; curW=g.w; }
+    else { cur.push(g); curW+=gw; }
+  });
+  if (cur.length) chunks.push(cur);
+
+  const svg = chunks.map(ck=>{
+    let x = padL, out = `<svg viewBox="0 0 ${VBW} ${rowH}">`;
+    for(let i=0;i<=4;i++){
+      const yy = padT + CH - CH*i/4;
+      out += `<line x1="${padL}" y1="${yy}" x2="${VBW-padR}" y2="${yy}" stroke="${i===0?'#EDE2DB':'#F6F0EC'}"/>` +
+             `<text x="${padL-7}" y="${yy+3.5}" text-anchor="end" font-size="10" fill="#A89A94">${Math.round(top*i/4)}</text>`;
+    }
+    ck.forEach((g,gi)=>{
+      out += `<rect x="${x}" y="${padT}" width="${g.w}" height="${CH}" fill="${gi%2?'#F8F1EC':'none'}" rx="6"/>`;
+      out += `<text x="${x+g.w/2}" y="${padT-9}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3D3230">${money2(g.total)}</text>`;
+      let bx = x + groupPad;
+      g.rows.forEach(r=>{
+        const rowStart = bx;
+        const bw = r.n>1 ? thinW : barW;
+        const sp = r.n>1 ? thinSp : gap;
+        const totalW = r.n*bw + (r.n-1)*sp;
+        for(let i=0;i<r.n;i++){
+          const h = Math.max(1.2, CH*r.v/top);
+          out += `<rect x="${bx.toFixed(1)}" y="${(padT+CH-h).toFixed(1)}" width="${bw}" height="${h.toFixed(1)}" rx="${r.n>1?1.5:2.5}" fill="${r.v>0?s.color:'#CBBFB8'}" opacity="${r.n>1?'.8':'.92'}"><title>【${esc(r.label)}】 单件 ${money2(r.v)}</title></rect>`;
+          bx += bw + sp;
+        }
+        const cx = rowStart + totalW/2;
+        out += `<text x="${cx.toFixed(1)}" y="${padT+CH+11}" text-anchor="end" font-size="10.5" fill="#7A6A65" transform="rotate(-40 ${cx.toFixed(1)} ${padT+CH+11})">${esc(r.label)}</text>`;
+      });
+      x += g.w + groupGap;
+    });
+    return out + '</svg>';
+  }).join('');
+
+  return `<div class="card m-hide"><h3>各车逐枚单价</h3>
+    <div class="desc">每枚章子一根柱，高度 = 单件价；标签为【衣橱-内容】，组上方为该车总投入，按原表顺序排列（细柱为「9个/套」的浮雕小物，悬停看单价）</div>
+    <div class="chart-scroll chart-wide">${svg}</div></div>`;
+}
+
+/* 大货金额趋势：每枚章子一个点（纵轴=该章子的大货金额，不用整车合计），
+   按表格车序排列（越靠前开得越早）；细线连原始点，粗线为 5 枚移动平均；
+   浅色带为同一车；剔除小物（浮雕小物）与特典行。 */
+function bulkTrendCard(s){
+  const pts = [], bands = [];
+  s.groups.forEach(g=>{
+    const from = pts.length;
+    g.items.forEach(it=>{
+      if (it.cat === '小物' || it.isBonus) return;
+      const b = NUM(it.bulk);
+      if (b === null) return;
+      pts.push({ v:b, g:g.name, n:it.content });
+    });
+    if (pts.length > from) bands.push({ name:g.name, a:from, b:pts.length-1 });
+  });
+  const excluded = s.groups.reduce((a,g)=>a+g.items.filter(it=>it.cat==='小物'||it.isBonus).length, 0);
+  if (!pts.length) return '';
+
+  const W=1100, padL=48, padR=18, padT=20, CH=200, padB=78, H=padT+CH+padB;
+  const maxV = Math.max(...pts.map(p=>p.v));
+  const top = Math.ceil(maxV/10)*10 || 10;
+  const span = W-padL-padR;
+  const step = span/Math.max(1, pts.length-1);
+  const X = i => padL + step*i;
+  const Y = v => padT + CH - CH*v/top;
+  const cl = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
+
+  let out = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  // 车分带（交替底色，一眼看出哪几个点是一车）
+  bands.forEach((bd,k)=>{
+    if (k%2) return;
+    const x1 = cl(X(bd.a)-step/2, padL, W-padR), x2 = cl(X(bd.b)+step/2, padL, W-padR);
+    out += `<rect x="${x1.toFixed(1)}" y="${padT}" width="${Math.max(1,x2-x1).toFixed(1)}" height="${CH}" fill="#F8F1EC" rx="5"/>`;
+  });
+  // y 轴
+  for(let i=0;i<=4;i++){
+    const yy = padT+CH-CH*i/4;
+    out += `<line x1="${padL}" y1="${yy}" x2="${W-padR}" y2="${yy}" stroke="${i===0?'#EDE2DB':'#F6F0EC'}"/>` +
+           `<text x="${padL-8}" y="${yy+3.5}" text-anchor="end" font-size="10" fill="#A89A94">${Math.round(top*i/4)}</text>`;
+  }
+  // 车名（带中心，-45°）
+  bands.forEach(bd=>{
+    const cx = (X(bd.a)+X(bd.b))/2;
+    out += `<text x="${cx.toFixed(1)}" y="${padT+CH+13}" text-anchor="end" font-size="10.5" fill="#7A6A65" transform="rotate(-45 ${cx.toFixed(1)} ${padT+CH+13})">${esc(bd.name)}</text>`;
+  });
+  // 原始折线 + 点
+  out += `<polyline points="${pts.map((p,i)=>X(i).toFixed(1)+','+Y(p.v).toFixed(1)).join(' ')}" fill="none" stroke="${s.color}" stroke-width="1.1" opacity=".42"/>`;
+  // 5 枚移动平均平滑线
+  const half = 2, sm = pts.map((p,i)=>{
+    let sum=0, c=0;
+    for(let j=i-half;j<=i+half;j++) if(j>=0&&j<pts.length){ sum+=pts[j].v; c++; }
+    return { i, v:sum/c };
+  });
+  out += `<polyline points="${sm.map(p=>X(p.i).toFixed(1)+','+Y(p.v).toFixed(1)).join(' ')}" fill="none" stroke="${s.color}" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>`;
+  pts.forEach((p,i)=>{
+    out += `<circle cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="3" fill="${s.color}" opacity=".85"><title>【${esc(p.g)}-${esc(p.n)}】 大货 ${money2(p.v)}</title></circle>`;
+  });
+  out += '</svg>';
+
+  return `<div class="card m-hide"><h3>大货金额趋势</h3>
+    <div class="desc">${pts.length} 个章子各一个点，纵轴 = 该章子的大货金额（不含均摊）；细线为原始值，粗线为 5 枚移动平均走势；浅色带 = 同一车。横轴按表格车序，越靠前开得越早${excluded?`（已剔除小物/特典 ${excluded} 项）`:''}</div>
+    <div class="chart-scroll chart-wide">${out}</div></div>`;
+}
+
+function renderSeries(){
+  const s = SERIES[ser.idx];
+  const badges = s.groups.reduce((a,g)=>a+g.badgeCount,0);
+  const units = s.groups.flatMap(g=>g.items).filter(it=>it.unitN>0).map(it=>it.unitN).sort((a,b)=>a-b);
+  const med = units.length ? units[Math.floor(units.length/2)] : 0;
+  renderSerChips();
+
+  const kpis = `
+    <div class="kpis">
+      <div class="kpi"><div class="lb">衣橱车数</div><div class="vl">${s.groups.length}<small>车</small></div></div>
+      <div class="kpi"><div class="lb">徽章数</div><div class="vl">${badges}<small>枚</small></div></div>
+      <div class="kpi"><div class="lb">系列投入</div><div class="vl">${money2(s.total)}</div><div class="ft">占总投入 ${(s.total/S.grand*100).toFixed(1)}%</div></div>
+      <div class="kpi"><div class="lb">均单价</div><div class="vl">${money2(s.total/badges)}</div><div class="ft">中位数 ${money2(med)}</div></div>
+    </div>`;
+
+  const unitCard = unitBarsCard(s);
+  const trendCard = bulkTrendCard(s);
+
+  // 逐枚明细（严格对齐：同一张表内 thead 与 tbody 列数一致）
+  const itemRows = s.groups.map(g=>g.items.map(it=>{
+    const w = rowWarn(it) ? ' ⚠' : '';
+    return `<tr>
+      <td class="pl c-g">${esc(g.name)}</td>
+      <td class="pl c-n">${esc(it.content)}</td>
+      ${qtyTd(it)}
+      <td class="c-num">${esc(it.share)}</td>
+      <td class="c-num">${esc(it.bulk)}</td>
+      <td class="c-num"><b>${esc(it.unit)}${w}</b></td>
+    </tr>`;
+  }).join('')).join('');
+  const tblCard = `
+    <div class="card"><h3>逐枚明细</h3>
+    <div class="desc">共 ${badges} 枚 · 单件 = 均摊 + 大货（⚠ 表示源表两处不一致，以单件为准）；数量列的「9」即 9 个/套，悬停可见原值</div>
+    <div class="tbl-wrap"><table>
+      <colgroup><col class="c-g"><col class="c-n"><col class="c-qty"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup>
+      <thead><tr>
+        <th class="pl c-g">车名</th><th class="pl c-n">内容</th><th class="c-qty">数量</th><th class="c-num">均摊</th><th class="c-num">大货</th><th class="c-num">单件</th>
+      </tr></thead>
+      <tbody>${itemRows}</tbody>
+    </table></div></div>`;
+
+  // 图墙
+  const figs = [];
+  s.groups.forEach(g=>(g.thumbs||[]).forEach(t=>{
+    figs.push(`<figure onclick="showImg('${t}','${esc(g.name)}')">
+      <img src="${t}" loading="lazy" alt="${esc(g.name)}"><figcaption>${esc(g.name)}</figcaption></figure>`);
+  }));
+  const galCard = figs.length ? `
+    <div class="card"><h3>实物宣图</h3>
+    <div class="desc">${figs.length} 张 · 点击放大</div>
+    <div class="gal">${figs.join('')}</div></div>` : '';
+
+  $('#serBody').innerHTML = kpis + unitCard + trendCard + tblCard + galCard;
+}
+
+/* =========================================================
+   面板 3：系列对比
+========================================================= */
+const cmp = { k:'total', dir:-1 };
+const CMP_COLS = [
+  {k:'name',  t:'系列',   pl:true, cls:'c-sr'},
+  {k:'groups',t:'车数',   cls:'c-cnt'},
+  {k:'badges',t:'枚数',   cls:'c-cnt'},
+  {k:'total', t:'总投入', cls:'c-num'},
+  {k:'avg',   t:'均单价', cls:'c-num'},
+  {k:'max',   t:'最贵单件', cls:'c-num c-hide-m'},
+  {k:'min',   t:'最省单件', cls:'c-num c-hide-m'},
+];
+
+function seriesRows(){
+  return SERIES.map(s=>{
+    const badges = s.groups.reduce((a,g)=>a+g.badgeCount,0);
+    const units = s.groups.flatMap(g=>g.items).filter(it=>it.unitN>0).map(it=>it.unitN);
+    return {
+      name:s.name, color:s.color, groups:s.groups.length, badges,
+      total:s.total, avg:+(s.total/badges).toFixed(2),
+      max:Math.max(...units), min:Math.min(...units),
+      share:s.groups.reduce((a,g)=>a+g.items.reduce((x,it)=>x+(NUM(it.share)||0)*it.qtyN,0),0),
+      bulk:s.groups.reduce((a,g)=>a+g.items.reduce((x,it)=>x+(NUM(it.bulk)||0)*it.qtyN,0),0),
+    };
+  });
+}
+
+function renderCompare(){
+  const rows = seriesRows();
+  const totalBar = `
+    <div class="card"><h3>总投入排行</h3>
+    <div class="desc">10 大系列合计 ${money2(S.grand)}</div>
+    ${hbarSVG([...rows].sort((a,b)=>b.total-a.total).map(r=>({label:r.name, value:r.total, color:r.color})), {rowH:30})}</div>`;
+  const avgBar = `
+    <div class="card"><h3>均单价排行</h3>
+    <div class="desc">全系列均单价 ${money2(S.avg)}</div>
+    ${hbarSVG([...rows].sort((a,b)=>b.avg-a.avg).map(r=>({label:r.name, value:r.avg, color:r.color})), {rowH:30})}</div>`;
+
+  // 构成对比：均摊 / 大货 占比堆叠条
+  const W=680, padL=76, padR=76, rowH=30, padT=8;
+  const H = padT + rows.length*rowH + 4;
+  let stk = `<svg viewBox="0 0 ${W} ${H}">`;
+  [...rows].sort((a,b)=>b.total-a.total).forEach((r,i)=>{
+    const y = padT+i*rowH, w = W-padL-padR;
+    const sh = w * r.share/r.total, bk = w * r.bulk/r.total;
+    stk += `<text x="${padL-10}" y="${y+rowH/2+4.5}" text-anchor="end" font-size="12.8" fill="#3D3230">${esc(r.name)}</text>`;
+    stk += `<rect x="${padL}" y="${y+6}" width="${sh}" height="${rowH-12}" rx="4.5" fill="#E88BA6" opacity=".9"/>`;
+    stk += `<rect x="${padL+sh}" y="${y+6}" width="${Math.max(0,bk)}" height="${rowH-12}" rx="0" fill="#4FB3B8" opacity=".9"/>`;
+    stk += `<text x="${W-padR+8}" y="${y+rowH/2+4.5}" font-size="11.5" fill="#7A6A65">${(r.bulk/r.total*100).toFixed(0)}%</text>`;
+  });
+  stk += '</svg>';
+  const stkCard = `
+    <div class="card"><h3>成本构成对比</h3>
+    <div class="desc">每系列里「均摊」与「大货」的占比，右侧为大货占比</div>
+    <div class="chart-scroll">${stk}</div>
+    <div class="legend"><span><i style="background:#E88BA6"></i>均摊</span><span><i style="background:#4FB3B8"></i>大货</span></div></div>`;
+
+  // 对比总表（可排序，严格对齐）
+  const sorted = [...rows].sort((a,b)=>{
+    const k = cmp.k, va = a[k], vb = b[k];
+    return (typeof va==='string' ? va.localeCompare(vb,'zh') : va-vb) * cmp.dir;
+  });
+  const thead = CMP_COLS.map(c=>
+    `<th class="${c.pl?'pl ':''}${c.cls} ${cmp.k===c.k?'sorted'+(cmp.dir>0?' asc':''):''}" data-k="${c.k}">${c.t}</th>`).join('');
+  const tbody = sorted.map(r=>`<tr>
+    <td class="pl c-sr"><span class="dot" style="background:${r.color}"></span><b>${esc(r.name)}</b>
+      <small class="m-ex">最贵 ${money2(r.max)} · 最省 ${money2(r.min)}</small></td>
+    <td class="c-cnt">${r.groups}</td><td class="c-cnt">${r.badges}</td>
+    <td class="c-num"><b>${money2(r.total)}</b></td>
+    <td class="c-num">${money2(r.avg)}</td>
+    <td class="c-num c-hide-m">${money2(r.max)}</td><td class="c-num c-hide-m">${money2(r.min)}</td>
+  </tr>`).join('');
+  const tblCard = `
+    <div class="card"><h3>系列对比总表</h3>
+    <div class="desc">点击列头排序<span class="m-ex">（窄屏下最贵/最省并到系列名下方）</span></div>
+    <div class="tbl-wrap"><table id="t_cmp" class="t7">
+      <colgroup><col class="c-sr"><col class="c-cnt"><col class="c-cnt"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup>
+      <thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody>
+    </table></div></div>`;
+  $('#cmpBody').innerHTML = `<div class="grid2">${totalBar}${avgBar}</div>
+    <div class="grid2">${stkCard}${tblCard}</div>`;
+  $('#cmpBody').querySelectorAll('#t_cmp th').forEach(th=>{
+    th.onclick = ()=>{ const k=th.dataset.k;
+      if (cmp.k===k) cmp.dir*=-1; else {cmp.k=k; cmp.dir=-1;} renderCompare(); };
+  });
+}
+
+/* =========================================================
+   面板 4：总览
+========================================================= */
+let ovCat = 'all';          /* 总览 TOP10 的属性筛选：all / 衣橱 / 小物 */
+function renderOverview(){
+  const rows = seriesRows();
+  const kpis = `
+    <div class="kpis m-hide">
+      <div class="kpi"><div class="lb">总投入</div><div class="vl">${money2(S.grand)}</div><div class="ft">${S.seriesCount} 大系列</div></div>
+      <div class="kpi"><div class="lb">徽章总数</div><div class="vl">${S.badgeCount}<small>枚</small></div><div class="ft">${S.groupCount} 车</div></div>
+      <div class="kpi"><div class="lb">均单价</div><div class="vl">${money2(S.avg)}</div><div class="ft">中位数 ${money2(S.median)}</div></div>
+      <div class="kpi"><div class="lb">最贵一枚</div><div class="vl">${money2(S.maxUnit)}</div><div class="ft">最省 ${money2(S.minUnit)}</div></div>
+    </div>`;
+
+  const totalBar = `
+    <div class="card m-hide"><h3>各系列总投入</h3>
+    <div class="desc">合计 ${money2(S.grand)}</div>
+    ${hbarSVG(rows.map(r=>({label:r.name, value:r.total, color:r.color})), {rowH:30})}</div>`;
+
+  // 成本构成环形图
+  const share = S.shareSum, bulk = S.bulkSum, other = Math.max(0, S.grand-share-bulk);
+  const C = 2*Math.PI*54;
+  const seg = (v,off,color)=>`<circle r="54" cx="90" cy="90" fill="none" stroke="${color}" stroke-width="26"
+    stroke-dasharray="${(v/S.grand*C).toFixed(2)} ${C}" stroke-dashoffset="${(-off/S.grand*C).toFixed(2)}"
+    transform="rotate(-90 90 90)" stroke-linecap="butt"/>`;
+  const donut = `
+    <div class="card m-hide"><h3>成本构成</h3>
+    <div class="desc">均摊 / 大货 / 其他（特典等未拆分项）</div>
+    <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+      <svg viewBox="0 0 180 180" style="width:180px;flex:0 0 180px">
+        <circle r="54" cx="90" cy="90" fill="none" stroke="#F4ECE7" stroke-width="26"/>
+        ${seg(share,0,'#E88BA6')}${seg(bulk,share,'#4FB3B8')}${seg(other,share+bulk,'#D9A54C')}
+        <text x="90" y="86" text-anchor="middle" font-size="17" font-weight="700" fill="#3D3230">${money2(S.grand)}</text>
+        <text x="90" y="104" text-anchor="middle" font-size="11" fill="#A89A94">总投入</text>
+      </svg>
+      <div class="legend" style="flex-direction:column;align-items:flex-start;gap:10px;margin-top:0">
+        <span><i style="background:#E88BA6"></i>均摊 ${money2(share)}（${(share/S.grand*100).toFixed(1)}%）</span>
+        <span><i style="background:#4FB3B8"></i>大货 ${money2(bulk)}（${(bulk/S.grand*100).toFixed(1)}%）</span>
+        <span><i style="background:#D9A54C"></i>其他 ${money2(other)}（${(other/S.grand*100).toFixed(1)}%）</span>
+      </div>
+    </div></div>`;
+
+  // 单件价格直方图（均单价线标注放在图例，不压柱）
+  const units = [];
+  SERIES.forEach(s=>s.groups.forEach(g=>g.items.forEach(it=>{
+    for(let i=0;i<(it.qtyN||1);i++) if(it.unitN>0) units.push(it.unitN);
+  })));
+  const BIN_EDGES = [0,15,20,25,30,35,40,45,50,200];
+  const bins = BIN_EDGES.slice(0,-1).map((lo,i)=>{
+    const hi = BIN_EDGES[i+1];
+    return { lo, hi, label: hi>=200 ? '50+' : `${lo}-${hi}`, n: units.filter(u=>u>lo&&u<=hi).length };
+  });
+  const W=680, padL=46, padR=16, padT=26, padB=40, CH=210;
+  const bw = (W-padL-padR)/bins.length;
+  const bn = Math.max(...bins.map(b=>b.n));
+  let hist = `<svg viewBox="0 0 ${W} ${padT+CH+padB}">`;
+  bins.forEach((b,i)=>{
+    const h = CH * b.n/bn, x = padL+i*bw;
+    hist += `<rect x="${x+5}" y="${padT+CH-h}" width="${bw-10}" height="${Math.max(0,h)}" rx="5" fill="#E88BA6" opacity="${.55+.45*b.n/bn}"/>`;
+    if (b.n) hist += `<text x="${x+bw/2}" y="${padT+CH-h-7}" text-anchor="middle" font-size="11.5" fill="#7A6A65">${b.n}</text>`;
+    hist += `<text x="${x+bw/2}" y="${padT+CH+18}" text-anchor="middle" font-size="11" fill="#A89A94">${b.label}</text>`;
+  });
+  // 均单价 / 中位数 参考线（图例说明，标签不压柱）
+  const posOf = v => padL + bw*( (v<=15?0:v<=20?1:v<=25?2:v<=30?3:v<=35?4:v<=40?5:v<=45?6:v<=50?7:8) + .5 );
+  [[S.avg,'#E88BA6','均单价 '+money2(S.avg)],[S.median,'#A88CD9','中位数 '+money2(S.median)]].forEach(t=>{
+    const x = posOf(t[0]);
+    hist += `<line x1="${x}" y1="${padT-6}" x2="${x}" y2="${padT+CH}" stroke="${t[1]}" stroke-width="1.6" stroke-dasharray="5 4"/>`;
+  });
+  hist += '</svg>';
+
+  const histCard = `
+    <div class="card m-hide"><h3>单件价格分布</h3>
+    <div class="desc">横轴为单件价格区间（元），纵轴为枚数</div>
+    <div class="chart-scroll">${hist}</div>
+    <div class="legend">
+      <span><i style="background:#E88BA6;height:2.5px;width:18px;border-radius:2px"></i>均单价 ${money2(S.avg)}</span>
+      <span><i style="background:#A88CD9;height:2.5px;width:18px;border-radius:2px"></i>中位数 ${money2(S.median)}</span>
+    </div></div>`;
+
+  // 均摊×大货 散点
+  const pts = [];
+  SERIES.forEach(s=>s.groups.forEach(g=>g.items.forEach(it=>{
+    const a=NUM(it.share), b=NUM(it.bulk);
+    if (a!==null&&b!==null) pts.push({a,b,c:s.color,n:s.name+''+g.name+''+it.content});
+  })));
+  const mx = Math.max(...pts.map(p=>p.a)), my = Math.max(...pts.map(p=>p.b));
+  const SW=680, SH=300, pL=52, pB=36, pT=14, pR=14;
+  let sc = `<svg viewBox="0 0 ${SW} ${SH}">`;
+  sc += `<line x1="${pL}" y1="${pT}" x2="${pL}" y2="${SH-pB}" stroke="#EDE2DB"/>
+         <line x1="${pL}" y1="${SH-pB}" x2="${SW-pR}" y2="${SH-pB}" stroke="#EDE2DB"/>`;
+  for(let i=0;i<=4;i++){
+    const y = SH-pB - (SH-pB-pT)*i/4;
+    sc += `<text x="${pL-8}" y="${y+4}" text-anchor="end" font-size="10.5" fill="#A89A94">${Math.round(my*i/4)}</text>
+           <line x1="${pL}" y1="${y}" x2="${SW-pR}" y2="${y}" stroke="#F6F0EC"/>`;
+    const x = pL + (SW-pL-pR)*i/4;
+    sc += `<text x="${x}" y="${SH-pB+16}" text-anchor="middle" font-size="10.5" fill="#A89A94">${Math.round(mx*i/4)}</text>`;
+  }
+  pts.forEach(p=>{
+    const x = pL + (SW-pL-pR)*p.a/mx, y = SH-pB - (SH-pB-pT)*p.b/my;
+    sc += `<circle cx="${x}" cy="${y}" r="4" fill="${p.c}" opacity=".62"><title>${esc(p.n)}　均摊${p.a} × 大货${p.b}</title></circle>`;
+  });
+  sc += `<text x="${(pL+SW-pR)/2}" y="${SH-4}" text-anchor="middle" font-size="11" fill="#7A6A65">均摊 →</text>`;
+  sc += `<text x="14" y="${(pT+SH-pB)/2}" text-anchor="middle" font-size="11" fill="#7A6A65" transform="rotate(-90 14 ${(pT+SH-pB)/2})">大货 →</text>`;
+  sc += '</svg>';
+  const scCard = `
+    <div class="card m-hide"><h3>均摊 × 大货 散点</h3>
+    <div class="desc">${pts.length} 个有均摊/大货记录的章子，颜色代表系列，悬停看明细</div>
+    <div class="chart-scroll">${sc}</div></div>`;
+
+  // TOP10：可按属性（衣橱 / 小物）切换
+  const allItems = [];
+  SERIES.forEach(s=>s.groups.forEach(g=>g.items.forEach(it=>{
+    if (it.unitN>0) allItems.push({s:s.name, c:s.color, g:g.name, n:it.content, v:it.unitN, cat:it.cat||'衣橱'});
+  })));
+  const topLi = r => `<li style="display:flex;align-items:center;gap:8px;margin:7px 0">
+    <span class="dot" style="background:${r.c}"></span>
+    <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(r.s)} · ${esc(r.g)} · ${esc(r.n)}</span>
+    <b>${money2(r.v)}</b></li>`;
+  const ovList = (arr, dir) => arr.length
+    ? [...arr].sort((a,b)=>dir*(b.v-a.v)).slice(0,10).map(topLi).join('')
+    : '<li style="color:var(--ink3);font-size:12.5px">该属性下没有记录</li>';
+  const ovTopHTML = ()=>{
+    const L = ovCat==='all' ? allItems : allItems.filter(r=>r.cat===ovCat);
+    const tag = ovCat==='all' ? '' : `（${ovCat}）`;
+    const cnt = k => k==='all' ? allItems.length : allItems.filter(r=>r.cat===k).length;
+    const chips = ['all','衣橱','小物'].map(k=>
+      `<button class="chip${ovCat===k?' on':''}" data-ovcat="${k}">${k==='all'?'全部':k} <b>${cnt(k)}</b></button>`).join('');
+    return `<div class="ov-cats">${chips}</div>
+      <div class="grid2">
+        <div class="card ov-top"><h3>最贵 TOP10${tag}</h3><ul style="list-style:none;padding:0;margin:6px 0 0">${ovList(L, 1)}</ul></div>
+        <div class="card ov-top"><h3>最省 TOP10${tag}</h3><ul style="list-style:none;padding:0;margin:6px 0 0">${ovList(L,-1)}</ul></div>
+      </div>`;
+  };
+
+  const notes = `
+    <div class="notes"><h3>数据说明</h3><ul>
+      ${DATA.warnings.map(w=>`<li>⚠ ${esc(w)}</li>`).join('')}
+      <li>单价与合计一律以「单件」列为准；均摊+大货与单件不一致处以 ⚠ 标注，未改动源表。</li>
+      <li>人鱼「浮雕小物」按 9 个/套 计（数量列），故徽章总数含其 36 枚。</li>
+    </ul></div>`;
+
+  $('#ovBody').innerHTML = kpis +
+    `<div class="grid2">${totalBar}${donut}</div>
+     <div class="grid2">${histCard}${scCard}</div>
+     <div id="ovTopWrap">${ovTopHTML()}</div>` + notes;
+
+  /* 属性切换只重画 TOP10 那一块（监听挂在容器上，innerHTML 替换后仍在） */
+  const ovWrap = $('#ovTopWrap');
+  if (ovWrap) ovWrap.addEventListener('click', e=>{
+    const b = e.target.closest('button[data-ovcat]');
+    if (!b) return;
+    ovCat = b.dataset.ovcat;
+    ovWrap.innerHTML = ovTopHTML();
+  });
+}
+
+/* =========================================================
+   面板 5：我在妮妮家吃了多少（勾选 → 汇总）
+   金额随时可见，无需"结算揭晓"
+========================================================= */
+const MINE_KEY = 'nini-mine-v1';
+const mine = { sel:{}, qty:{}, rev:{}, all:false, detail:false };
+
+function mineLoad(){
+  try{
+    const o = JSON.parse(localStorage.getItem(MINE_KEY) || '{}');
+    if (o && typeof o === 'object'){ mine.sel = o.sel || {}; mine.qty = o.qty || {}; }
+  }catch(e){}
+}
+function mineSave(){
+  try{ localStorage.setItem(MINE_KEY, JSON.stringify({sel:mine.sel, qty:mine.qty})); }catch(e){}
+}
+const ik = (si,gi,ii) => si+'-'+gi+'-'+ii;
+const itemByKey = k => { const [si,gi,ii] = k.split('-').map(Number); return SERIES[si].groups[gi].items[ii]; };
+const iDef = it => (it.qtyN>1 ? it.qtyN : 1);
+const iQty = (k,it) => (mine.qty[k]!=null ? mine.qty[k] : iDef(it));
+/* 勾选一行时算有效数量：存过 0（旧版滚轮 bug 的遗留）就恢复默认 1（小物 9） */
+const iQtyOn = (k,it) => { const v = mine.qty[k]!=null ? qwClamp(+mine.qty[k]) : iDef(it); return v>0 ? v : iDef(it); };
+const iRev = si => mine.all || !!mine.rev[si];
+
+/* ---------- 数量滚轮 0–10 ----------
+   结构：容器高 34px（内容区 32px），每项 22px，首尾各留 5px，
+   于是第 v 项居中时 scrollTop = v × 22，用这个反推当前值。 */
+const QMAX = 10, QH = 22;
+const qwClamp = v => Math.max(0, Math.min(QMAX, v|0));
+function qwHTML(k, v, on, tip){
+  let s = '<div class="qw-p"></div>';
+  for (let i=0;i<=QMAX;i++) s += `<div class="qw-i">${i}</div>`;
+  s += '<div class="qw-p"></div>';
+  return `<div class="qw${on?'':' off'}" data-qi="${k}" data-v="${v}" tabindex="0"
+    role="slider" aria-valuemin="0" aria-valuemax="${QMAX}" aria-valuenow="${v}"
+    aria-label="数量"${tip?` title="${tip}"`:''}>${s}</div>`;
+}
+function qwPaint(el, v){
+  const ns = el.querySelectorAll('.qw-i');
+  for (let i=0;i<ns.length;i++) ns[i].classList.toggle('sel', i===v);
+}
+/* 把滚轮滚到 v 并同步数据；silent=true 时不写 localStorage（用于渲染后的初始化） */
+function qwSet(el, v, silent){
+  v = qwClamp(v);
+  el.dataset.v = v;
+  el.setAttribute('aria-valuenow', v);
+  el.scrollTop = v * QH;
+  qwPaint(el, v);
+  if (!silent){ mine.qty[el.dataset.qi] = v; mineSave(); updateMine(); }
+}
+const qwTimers = new WeakMap();
+function qwSettle(el){                     /* 滚动停下后再取值，避免中途狂写 */
+  clearTimeout(qwTimers.get(el));
+  qwTimers.set(el, setTimeout(()=>{
+    const v = qwClamp(Math.round(el.scrollTop / QH));
+    el.scrollTop = v * QH;                /* 吸附对齐（会再触发一次 scroll，但值没变） */
+    if (+el.dataset.v !== v) qwSet(el, v);
+  }, 90));
+}
+function qwInitAll(root){                 /* 渲染后把每个滚轮定位到当前值 */
+  (root||document).querySelectorAll('.qw').forEach(el=>{
+    const v = qwClamp(+el.dataset.v);
+    el.scrollTop = v * QH;
+    qwPaint(el, v);
+  });
+}
+
+/* 手机端（≤760px）：数量滚轮换成原生 <select>，轻量且不卡 */
+function mineIsMobile(){
+  try{ return window.matchMedia('(max-width:760px)').matches; }catch(e){ return false; }
+}
+function qselHTML(k, v, on, tip){
+  let opts = '';
+  for (let i=0;i<=QMAX;i++) opts += `<option value="${i}"${i===v?' selected':''}>${i}</option>`;
+  return `<select class="qsel" data-qi="${k}"${on?'':' disabled'} aria-label="数量"${tip?` title="${tip}"`:''}>${opts}</select>`;
+}
+function qtyCellHTML(k, v, on, tip){
+  return mineIsMobile() ? qselHTML(k, v, on, tip) : qwHTML(k, v, on, tip);
+}
+/* 断点跨越（如旋转屏幕）时重渲染结算页，保证控件形态与屏幕匹配 */
+let mineMobileMode = null, mineRqBound = false;
+try{
+  const rq = window.matchMedia('(max-width:760px)');
+  const onMq = ()=>{ if (panelReady.mine && mineMobileMode !== null && mineMobileMode !== mineIsMobile()) renderMine(); };
+  if (rq.addEventListener && !mineRqBound){ rq.addEventListener('change', onMq); mineRqBound = true; }
+}catch(e){}
+
+/* si 为 null 时统计全部 */
+function mineCalc(si){
+  let cars=0, badges=0, amount=0;
+  SERIES.forEach((s,i)=>{
+    if (si!==null && i!==si) return;
+    s.groups.forEach((g,gi)=>{
+      let hit=false;
+      g.items.forEach((it,ii)=>{
+        const k = ik(i,gi,ii);
+        if (!mine.sel[k]) return;
+        const q = iQty(k,it);
+        if (!(q>0)) return;
+        hit = true; badges += q; amount += it.unitN*q;
+      });
+      if (hit) cars++;
+    });
+  });
+  return {cars, badges, amount:Math.round(amount*100)/100};
+}
+
+function renderMine(){
+  let html = `
+    <div class="mine-bar">
+      <span>已选 <b id="mCars">0</b> 车</span>
+      <span><b id="mBadges">0</b> 枚</span>
+      <span>已选金额 <b id="mAmt">¥0.00</b></span>
+      <span class="spacer"></span>
+      <button class="btn" id="mClear">清空全部</button>
+      <button class="btn primary" id="mAll">查看汇总</button>
+      <button class="btn" id="mDetail">详细列表</button>
+      <div class="mine-index">${SERIES.map((s,si)=>`<button class="mi-chip" data-jump="${si}"><span class="dot" style="background:${s.color}"></span>${esc(s.name)}</button>`).join('')}</div>
+    </div>
+    <div class="notes" style="margin-bottom:16px"><h3>怎么用</h3><ul>
+      <li>勾你买过的章子，数量在 0–10 里选：电脑上滚轮、按住拖或方向键都行（滚一格 ±1）；手机上点数字弹出选择。人鱼「浮雕小物」按「套」计，勾一下默认 9 个。</li>
+      <li>顶部「已选金额」实时显示当前勾选的总价（单件 × 数量），随时可看，无需结算。</li>
+      <li>每个系列末尾可单独结算，只看这一个系列花了多少；底部「查看汇总」出全部明细。</li>
+      <li>顶部系列索引可一键跳到对应系列；点「详细列表」把已勾选的章子汇总成一张大表（每行小计、底部合计）。</li>
+      <li>勾选存在这台设备的浏览器里，刷新不丢；换手机或换浏览器各算各的。</li>
+    </ul></div>`;
+
+  SERIES.forEach((s,si)=>{
+    /* 该系列实际出现过的属性（没有小物的系列就不显示「全选小物」） */
+    const cats = ['衣橱','小物'].filter(c=>
+      s.groups.some(g=>g.items.some(it=>(it.cat||'衣橱')===c)));
+    const rows = s.groups.map((g,gi)=>g.items.map((it,ii)=>{
+      const k = ik(si,gi,ii), on = !!mine.sel[k], q = iQty(k,it), rev = iRev(si);
+      const w = rowWarn(it) ? ' ⚠' : '';
+      /* 属性（衣橱/小物，来自表格「属性」列）与「特典」各自独立，两者都可能是 */
+      /* 属性（衣橱/小物，来自表格「属性」列）与「特典」各自独立。
+         结算板块按需求取消特典标识；小物标识改用柔和小标，手机端进一步缩小避免突兀 */
+      const tag = ((it.cat||'衣橱')==='小物' ? '<span class="cat-tag x">小物</span> ' : '');
+      const qt = it.qtyN>1 ? `${esc(String(it.qty))}（1 套 = ${it.qtyN} 个）` : '';
+      const m = v => rev ? v : v;   /* 金额随时可见，不遮罩 */
+      return `<tr class="${on?'on':''}" data-k="${k}">
+        <td class="c-ck"><input type="checkbox" data-ck="${k}" ${on?'checked':''} aria-label="选择"></td>
+        <td class="pl c-g">${esc(g.name)}</td>
+        <td class="pl c-n">${tag}${esc(it.content)}</td>
+        <td class="c-qty">${qtyCellHTML(k, q, on, qt)}</td>
+        <td class="c-num">${m(esc(it.share))}</td>
+        <td class="c-num">${m(esc(it.bulk))}</td>
+        <td class="c-num"><b>${m(esc(it.unit)+w)}</b></td>
+      </tr>`;
+    }).join('')).join('');
+
+    html += `<div class="card" data-si="${si}">
+      <h3><span class="dot" style="background:${s.color}"></span>${esc(s.name)}</h3>
+      <div class="desc">${s.groups.length} 车 · 共 <span class="mTotB">—</span> 枚 · 已选 <span class="mSel">0 车 / 0 枚</span></div>
+      <div class="mine-acts">
+        <button class="btn" data-act="all" data-si="${si}">全选本系列</button>
+        ${cats.map(c=>`<button class="btn" data-act="cat" data-cat="${c}" data-si="${si}">全选${c}</button>`).join('')}
+        <button class="btn" data-act="none" data-si="${si}">清空</button>
+      </div>
+      <div class="tbl-wrap"><table class="tm">
+        <colgroup><col class="c-ck"><col class="c-g"><col class="c-n"><col class="c-qty"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup>
+        <thead><tr>
+          <th class="c-ck"></th><th class="pl c-g">衣橱</th><th class="pl c-n">内容</th><th class="c-qty">数量</th>
+          <th class="c-num">均摊</th><th class="c-num">大货</th><th class="c-num">单件</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+      <div class="mine-acts" style="margin:14px 0 0">
+        <button class="btn primary" data-act="calc" data-si="${si}">结算本系列</button>
+        <button class="btn" data-act="hide" data-si="${si}" style="display:none">隐藏本系列金额</button>
+      </div>
+      <div class="mine-res" id="mRes${si}"></div>
+    </div>`;
+  });
+
+  html += `<div id="mineTotal"></div>` + `<div id="mineDetail"></div>`;
+  mineMobileMode = mineIsMobile();
+  $('#mineBody').innerHTML = html;
+  if (!mineBound) bindMine();              /* 监听器只绑一次：重复绑定会让点击越来越卡 */
+  bindMineBar();
+  qwInitAll($('#mineBody'));
+  updateMine();
+}
+
+function updateMine(){
+  const all = mineCalc(null);
+  const c = $('#mCars'), b = $('#mBadges'), a = $('#mAmt');
+  if (c) c.textContent = all.cars;
+  if (b) b.textContent = all.badges;
+  if (a) a.textContent = money2(all.amount);
+
+  SERIES.forEach((s,i)=>{
+    const card = $('#mineBody').querySelector('.card[data-si="'+i+'"]');
+    if (!card) return;
+    const r = mineCalc(i);
+    card.querySelector('.mTotB').textContent = s.groups.reduce((a,g)=>a+g.badgeCount,0);
+    card.querySelector('.mSel').textContent = r.cars+' 车 / '+r.badges+' 枚';
+    const res = card.querySelector('.mine-res');
+    const btnCalc = card.querySelector('[data-act="calc"]');
+    const btnHide = card.querySelector('[data-act="hide"]');
+    if (iRev(i)){
+      res.innerHTML = `<div class="mine-sum"><span>已选 <b>${r.cars}</b> 车</span><span><b>${r.badges}</b> 枚</span><span class="big">${money2(r.amount)}</span></div>`;
+      btnHide.style.display = '';
+      btnCalc.style.display = 'none';
+    } else {
+      res.innerHTML = '';
+      btnHide.style.display = 'none';
+      btnCalc.style.display = '';
+    }
+  });
+
+  const t = $('#mineTotal'), btn = $('#mAll');
+  if (mine.all){
+    const rows = SERIES.map((s,i)=>({name:s.name, color:s.color, r:mineCalc(i)})).filter(x=>x.r.cars>0);
+    t.innerHTML = `<div class="mine-total">
+      <h3>我在妮妮家吃了多少</h3>
+      <div style="color:var(--ink3);font-size:12.5px">共勾了 ${all.cars} 车 / ${all.badges} 枚</div>
+      <div class="rows">${rows.map(x=>`<div>
+        <span class="dot" style="background:${x.color}"></span>
+        <span>${esc(x.name)}</span>
+        <span>${x.r.cars} 车 / ${x.r.badges} 枚</span>
+        <span>${money2(x.r.amount)}</span></div>`).join('') || '<div>还没勾选任何章子</div>'}</div>
+      <div class="grand"><span class="n">总计</span><span class="v">${money2(all.amount)}</span></div>
+    </div>`;
+    btn.textContent = '收起汇总'; btn.classList.add('done');
+  } else {
+    t.innerHTML = '';
+    btn.textContent = '查看汇总'; btn.classList.remove('done');
+  }
+
+  const det = $('#mineDetail'), btnD = $('#mDetail');
+  if (det){
+    if (mine.detail){
+      let gB=0, gA=0, rows=[];
+      SERIES.forEach((s,si)=>{
+        let sB=0, sA=0, has=false;
+        s.groups.forEach((g,gi)=>g.items.forEach((it,ii)=>{
+          const k=ik(si,gi,ii); if(!mine.sel[k]) return; const q=iQty(k,it); if(!(q>0)) return;
+          has=true; const amt=Math.round(it.unitN*q*100)/100; sB+=q; sA+=amt; gB+=q; gA+=amt;
+          const catTag=(it.cat||'衣橱')==='小物'?'<span class="cat-tag x">小物</span>':'<span class="cat-tag">衣橱</span>';
+          rows.push(`<tr><td class="pl c-sr">${esc(s.name)}</td><td class="pl c-g">${esc(g.name)}</td><td class="pl c-n">${esc(it.content)}</td><td class="c-cat">${catTag}</td><td class="c-qty">${q}</td><td class="c-num"><b>${esc(it.unit)}</b></td><td class="c-num"><b>${money2(amt)}</b></td></tr>`);
+        }));
+        if(has) rows.push(`<tr class="dt-sub"><td colspan="3">${esc(s.name)} 小计</td><td></td><td class="c-qty">${sB}</td><td></td><td class="c-num"><b>${money2(sA)}</b></td></tr>`);
+      });
+      det.innerHTML = gB ? `<div class="mine-detail">
+        <h3>已勾选章子明细</h3>
+        <div class="desc">共 ${gB} 枚 · 合计 ${money2(gA)}</div>
+        <div class="tbl-wrap"><table class="tm tm-detail">
+          <colgroup><col class="c-sr"><col class="c-g"><col class="c-n"><col class="c-cat"><col class="c-qty"><col class="c-num"><col class="c-num"></colgroup>
+          <thead><tr><th class="pl c-sr">系列</th><th class="pl c-g">车名</th><th class="pl c-n">内容</th><th class="c-cat">属性</th><th class="c-qty">数量</th><th class="c-num">单件</th><th class="c-num">小计</th></tr></thead>
+          <tbody>${rows.join('')}</tbody>
+          <tfoot><tr><td colspan="3">合计</td><td></td><td class="c-qty">${gB}</td><td></td><td class="c-num"><b>${money2(gA)}</b></td></tr></tfoot>
+        </table></div></div>`
+        : `<div class="mine-detail"><h3>已勾选章子明细</h3><div class="desc">还没勾选任何章子</div></div>`;
+      if(btnD){ btnD.textContent='收起明细'; btnD.classList.add('done'); }
+    } else {
+      det.innerHTML='';
+      if(btnD){ btnD.textContent='详细列表'; btnD.classList.remove('done'); }
+    }
+  }
+}
+
+let mineBound = false;
+function bindMine(){
+  if (mineBound) return;
+  mineBound = true;
+  const body = $('#mineBody');
+
+  /* 勾选 / 手机端 select 改数量：都走就地更新，不整页重渲染 */
+  body.addEventListener('change', e=>{
+    const t = e.target;
+    if (t.dataset.ck !== undefined){
+      const k = t.dataset.ck;
+      mine.sel[k] = t.checked ? 1 : 0;
+      const tr = t.closest('tr');
+      if (tr){
+        tr.classList.toggle('on', t.checked);
+        const it = itemByKey(k);
+        const v = t.checked ? iQtyOn(k, it) : (mine.qty[k]!=null ? qwClamp(+mine.qty[k]) : iDef(it));
+        if (t.checked) mine.qty[k] = v;      /* 勾选即落默认值，杜绝 0 */
+        const qw = tr.querySelector('.qw');
+        if (qw){ qw.classList.toggle('off', !t.checked); qwSet(qw, v, true); }
+        const sl = tr.querySelector('.qsel');
+        if (sl){ sl.disabled = !t.checked; sl.value = String(v); }
+      }
+      mineSave(); updateMine();
+    } else if (t.classList && t.classList.contains('qsel')){
+      mine.qty[t.dataset.qi] = qwClamp(+t.value);
+      mineSave(); updateMine();
+    }
+  });
+
+  /* 滚轮：scroll 不冒泡，必须用捕获 */
+  body.addEventListener('scroll', e=>{
+    const el = e.target.closest ? e.target.closest('.qw') : null;
+    if (el && !el.classList.contains('off')) qwSettle(el);
+  }, true);
+
+  /* 鼠标滚轮：一格只 ±1，不再随浏览器默认步长跳跃（1→3→5 的修复） */
+  body.addEventListener('wheel', e=>{
+    const el = e.target.closest ? e.target.closest('.qw') : null;
+    if (!el || el.classList.contains('off')) return;
+    e.preventDefault();
+    qwSet(el, qwClamp(+el.dataset.v) + (e.deltaY > 0 ? -1 : 1));
+  }, { passive:false, capture:true });
+
+  /* 电脑端按住上下拖（触屏走原生滚动，不接管） */
+  body.addEventListener('pointerdown', e=>{
+    if (e.pointerType === 'touch' || e.button !== 0) return;
+    const el = e.target.closest('.qw');
+    if (!el || el.classList.contains('off')) return;
+    el.focus({preventScroll:true});
+    const y0 = e.clientY, top0 = el.scrollTop;
+    const move = ev => { el.scrollTop = top0 - (ev.clientY - y0); };
+    const up = ()=>{ document.removeEventListener('pointermove', move);
+                     document.removeEventListener('pointerup', up); };
+    document.addEventListener('pointermove', move);
+    document.addEventListener('pointerup', up);
+  });
+
+  /* 键盘：↑↓ 加减，Home/End 到两端 */
+  body.addEventListener('keydown', e=>{
+    const el = e.target.closest ? e.target.closest('.qw') : null;
+    if (!el || el.classList.contains('off')) return;
+    const v = qwClamp(+el.dataset.v);
+    let nv = null;
+    if (e.key === 'ArrowUp')        nv = v + 1;
+    else if (e.key === 'ArrowDown') nv = v - 1;
+    else if (e.key === 'Home')      nv = 0;
+    else if (e.key === 'End')       nv = QMAX;
+    if (nv === null) return;
+    e.preventDefault();
+    qwSet(el, nv);
+  });
+
+  /* 把一张系列卡片里的行统一设为勾/不勾（就地更新，不重渲染）
+     cat 有值时只处理该属性（衣橱 / 小物）的行 */
+  function setCard(si, on, cat){
+    const card = body.querySelector('.card[data-si="'+si+'"]');
+    if (!card) return;
+    card.querySelectorAll('tbody tr').forEach(tr=>{
+      const cb = tr.querySelector('input[type=checkbox]');
+      if (!cb) return;
+      const k = cb.dataset.ck;
+      if (cat && (itemByKey(k).cat||'衣橱') !== cat) return;
+      mine.sel[k] = on ? 1 : 0;
+      cb.checked = on;
+      tr.classList.toggle('on', on);
+      const it = itemByKey(k);
+      const v = on ? iQtyOn(k, it) : (mine.qty[k]!=null ? qwClamp(+mine.qty[k]) : iDef(it));
+      if (on) mine.qty[k] = v;               /* 全选也把数量落到默认值 */
+      const qw = tr.querySelector('.qw');
+      if (qw){ qw.classList.toggle('off', !on); qwSet(qw, v, true); }
+      const sl = tr.querySelector('.qsel');
+      if (sl){ sl.disabled = !on; sl.value = String(v); }
+    });
+    mineSave(); updateMine();
+  }
+
+  body.addEventListener('click', e=>{
+    const chip = e.target.closest('.mi-chip');
+    if (chip){
+      const si = +chip.dataset.jump;
+      const card = body.querySelector('.card[data-si="'+si+'"]');
+      if (card) card.scrollIntoView({behavior:'smooth', block:'start'});
+      return;
+    }
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const act = btn.dataset.act;
+    if (act === 'all' || act === 'none'){
+      setCard(+btn.dataset.si, act === 'all');
+    } else if (act === 'cat'){
+      setCard(+btn.dataset.si, true, btn.dataset.cat);
+    } else if (act === 'calc'){
+      mine.rev[+btn.dataset.si] = true; updateMine();
+    } else if (act === 'hide'){
+      delete mine.rev[+btn.dataset.si]; updateMine();
+    }
+  });
+}
+
+/* 顶栏「清空全部 / 查看汇总」：这两个按钮随 innerHTML 重建，每次渲染后都要重绑 */
+function bindMineBar(){
+  $('#mClear').onclick = ()=>{
+    mine.sel = {}; mine.qty = {}; mine.rev = {}; mine.all = false;
+    const body = $('#mineBody');
+    body.querySelectorAll('tbody tr').forEach(tr=>{
+      const cb = tr.querySelector('input[type=checkbox]');
+      if (cb) cb.checked = false;
+      tr.classList.remove('on');
+      const qw = tr.querySelector('.qw');
+      if (qw) qw.classList.add('off');
+      const sl = tr.querySelector('.qsel');
+      if (sl) sl.disabled = true;
+    });
+    mineSave(); updateMine();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  $('#mAll').onclick = ()=>{
+    mine.all = !mine.all;
+    updateMine();
+    if (mine.all) setTimeout(()=>{
+      const el = $('#mineTotal');
+      if (el && el.scrollIntoView) el.scrollIntoView({behavior:'smooth',block:'center'});
+    }, 60);
+  };
+  $('#mDetail').onclick = ()=>{
+    mine.detail = !mine.detail;
+    updateMine();
+    if (mine.detail) setTimeout(()=>{
+      const el = $('#mineDetail');
+      if (el && el.scrollIntoView) el.scrollIntoView({behavior:'smooth',block:'center'});
+    }, 60);
+  };
+}
+
+/* ---------- init（懒渲染：首屏只有明细总表，其余面板点开时再渲染） ---------- */
+renderDetail();
+</script>
+</body>
+</html>
